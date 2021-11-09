@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.40208333333333335" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/drawable/add_24.xml" value="0.5666666666666667" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.5666666666666667" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/drawable/ic_launcher_background.xml" value="0.40208333333333335" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/drawable/oval_edit_text.xml" value="0.5666666666666667" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/activity_main.xml" value="0.3145833333333333" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/dialog_fragment_create_new_group.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/item_contact.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/layout_contact_item.xml" value="0.1911231884057971" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/layout_create_contact_fragment.xml" value="0.2341485507246377" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/layout_create_group_fragment.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/layout_group_contact_item.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/layout_group_fragment.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/layout_select_group_fragment.xml" value="0.13692946058091288" />
+        <entry key="..\:/Users/777/AndroidStudioProjects/Contacts/app/src/main/res/layout/layout_select_sub_group_fragment.xml" value="0.22282608695652173" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

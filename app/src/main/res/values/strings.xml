@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Contacts</string>
+    <string name="toast_message_group_success_created">Новая группа добавлена</string>
+    <string name="toast_message_group_exist">Группа уже существует</string>
+    <string name="toolbar_name_group">Группы</string>
+    <string name="toolbar_name_contact">Контакты</string>
+    <array name="spinner_priority">
+        <item>Без приоритета</item>
+        <item>Низкий приоритет</item>
+        <item>Средний приоритет</item>
+        <item>Высокий приоритет</item>
+    </array>
+    <string name="dialogFragmentNameCreateGroup">Создать группу</string>
+    <string name="dialogFragmentNameCreateSubGroup">Создать подгруппу</string>
+    <string name="dialogFragmentEditGroup">Изменить название группы</string>
+    <string name="dialogFragmentEditSubGroup">Изменить название подгруппы</string>
+    <string name="positiveButtonDialogFragment">ОК</string>
+    <string name="negativeButtonDialogFragment">ОТМЕНА</string>
+</resources>
