@@ -42,7 +42,7 @@ public class MainFragment extends Fragment {
     public static final String PARAM_BUNDLE_KEY_ID = "param1";
     public static final String PARAM_BUNDLE_KEY_TYPE = "param2";
     private TextView tvNameToolbar;
-    boolean loading = false;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -100,7 +100,7 @@ public class MainFragment extends Fragment {
         liveData.observe(getViewLifecycleOwner(), subGroupOfSelectGroups -> {
 
             if (subGroupOfSelectGroups != null) {
-                loading = false;
+
                 adapter.setListGroupAndSubgroup(subGroupOfSelectGroups);
             }
 
