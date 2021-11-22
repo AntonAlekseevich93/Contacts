@@ -35,7 +35,6 @@ public class DialogFragmentContacts extends DialogFragment {
     private ActionEnum actionEnum;
     private int nameTitleDialog;
     private int idGroup;
-    private int position;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -43,20 +42,31 @@ public class DialogFragmentContacts extends DialogFragment {
         this.context = context;
     }
 
-    public DialogFragmentContacts(ContactViewModel viewModel, String nameSelectedGroup,int position,  int idGroup, ActionEnum actionEnum) {
+    public DialogFragmentContacts(ContactViewModel viewModel, String nameSelectedGroup, int idGroup, ActionEnum actionEnum) {
         this.viewModel = viewModel;
         this.nameSelectedGroup = nameSelectedGroup;
         this.actionEnum = actionEnum;
         this.idGroup = idGroup;
-        this.position = position;
+
+    }
+
+    public DialogFragmentContacts(ContactViewModel viewModel, String nameSelectedGroup,  ActionEnum actionEnum) {
+        this.viewModel = viewModel;
+        this.nameSelectedGroup = nameSelectedGroup;
+        this.actionEnum = actionEnum;
+
+
+    }
+
+    public DialogFragmentContacts(ContactViewModel viewModel, int idGroup, ActionEnum actionEnum) {
+        this.viewModel = viewModel;
+        this.actionEnum = actionEnum;
+        this.idGroup = idGroup;
     }
 
     public DialogFragmentContacts(ContactViewModel viewModel,  ActionEnum actionEnum) {
         this.viewModel = viewModel;
-        this.nameSelectedGroup = nameSelectedGroup;
         this.actionEnum = actionEnum;
-        this.idGroup = idGroup;
-        this.position = position;
     }
 
 
@@ -128,7 +138,14 @@ public class DialogFragmentContacts extends DialogFragment {
                             break;
 
                         case EDIT_SUB_GROUP:
-
+                            String newNameSubGroup = editText.getText().toString();
+                            LiveData<Boolean> liveData4= viewModel.editNameGroupOrSubgroup(nameSelectedGroup, newNameSubGroup, 1);
+                            liveData4.observe(requireActivity(), aBoolean -> {
+                                if (aBoolean) {
+                                    Toast.makeText(context, "Название подгруппы изменено", Toast.LENGTH_SHORT).show();
+                                } else
+                                    Toast.makeText(context, "Такая подгруппа уже существует", Toast.LENGTH_SHORT).show();
+                            });
                             break;
                     }
 

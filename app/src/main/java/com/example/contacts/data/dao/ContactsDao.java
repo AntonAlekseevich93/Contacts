@@ -91,16 +91,21 @@ public interface ContactsDao {
     @Query("SELECT * FROM groupContacts WHERE nameGroup = :nameGroup")
     List<GroupContacts> checkIfGroupExist(String nameGroup);
 
-    //Проверяет, существует ли такой контакт
-    @Query("SELECT * FROM contacts WHERE number = :numberContact")
-    List<Contact> checkIfContactExist(String numberContact);
-
     //Проверяет, существует ли такая подгруппа
     @Query("SELECT * FROM subgroup WHERE nameSubGroup = :nameSubGroup")
     List<SubGroupContact> checkIfSubGroupExist(String nameSubGroup);
 
+    //Проверяет, существует ли такой контакт
+    @Query("SELECT * FROM contacts WHERE number = :numberContact")
+    List<Contact> checkIfContactExist(String numberContact);
+
+    //Изменяет название группы
     @Query("UPDATE groupContacts SET nameGroup = :newName WHERE nameGroup = :name")
     void editNameGroup(String name, String newName);
+
+    //Изменяет название подгруппы
+    @Query("UPDATE subgroup SET nameSubGroup = :newName WHERE nameSubGroup = :name")
+    void editNameSubGroup(String name, String newName);
 
 //    @Query("UPDATE subgroup SET nameGroup = :newNameGroup WHERE nameGroup = :nameGroup")
 //    void editNameGroupFromTableSubGroup(String nameGroup, String newNameGroup);

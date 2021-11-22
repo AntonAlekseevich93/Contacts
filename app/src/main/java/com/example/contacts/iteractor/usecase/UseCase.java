@@ -192,6 +192,14 @@ public class UseCase {
                         contactsDatabase.contactsDao().editNameGroup(name, newName);
                         emitter.onSuccess(true);
                     }
+                }else if(type==1){
+                    int size = contactsDatabase.contactsDao().checkIfSubGroupExist(newName).size();
+                    if (size > 0) emitter.onSuccess(false);
+                    else {
+                        contactsDatabase.contactsDao().editNameSubGroup(name, newName);
+                        contactsDatabase.contactsDao().editNameSubGroup(name, newName);
+                        emitter.onSuccess(true);
+                    }
                 }
             }
         });

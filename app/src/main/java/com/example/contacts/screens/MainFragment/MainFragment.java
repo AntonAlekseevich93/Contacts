@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class MainFragment extends Fragment  {
+public class MainFragment extends Fragment {
     private ContactViewModel viewModel;
     private RecyclerView recyclerView;
     private MainAdapterGroup adapter;
@@ -64,14 +64,20 @@ public class MainFragment extends Fragment  {
                     MainFragment.this.openGroupOfContact(id, type);
                     return null;
                 },
-
-                new BiFunction<String, Integer, Void>() {
-                    @Override
-                    public Void apply(String name, Integer position) {
-                        System.out.println(position + " ПОЗИЦИЯ main Fragment УШЛА из адаптера");
-                        new DialogFragmentContacts(viewModel, name, position, -1, ActionEnum.EDIT_GROUP).show(MainFragment.this.getChildFragmentManager(), DialogFragmentContacts.TAG);
-                        return null;
-                    }
+                /**
+                 * Функиця возвращает имя группы или подгруппы для изменения имени
+                 * и тип, где 0 - группа, 1 - подгруппа
+                 */
+                (name, type) -> {
+                    if (type == 0)
+                        new DialogFragmentContacts(viewModel, name,
+                                ActionEnum.EDIT_GROUP).show(MainFragment.this.getChildFragmentManager(),
+                                DialogFragmentContacts.TAG);
+                    else if (type == 1)
+                        new DialogFragmentContacts(viewModel, name,
+                                ActionEnum.EDIT_SUB_GROUP).show(MainFragment.this.getChildFragmentManager(),
+                                DialogFragmentContacts.TAG);
+                    return null;
                 });
 
 
