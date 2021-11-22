@@ -10,6 +10,7 @@
     <color name="fab_color">#4772FA</color>
     <color name="save_color">#4772FA</color>
     <color name="cancel_color">#DF291C</color>
+    <color name="create_subgroup_text_color">#00BCD4</color>
     <color name="toolbar">#F2F5FE</color>
     <color name="nameGroup">#4772FA</color>
     <color name="nameSubGroup">#4772FA</color>
@@ -17,4 +18,7 @@
     <color name="colorAppBackground">#974E76F3</color>
     <color name="nameToolbarAnother">#FE6262</color>
     <color name="editButtonColor">#7192FB</color>
+    <color name="colorSelectGroup">#CCD8FF</color>
+    <color name="select_color">#DF291C</color>
+
 </resources>

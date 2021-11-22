@@ -16,4 +16,6 @@
     <string name="dialogFragmentEditSubGroup">Изменить название подгруппы</string>
     <string name="positiveButtonDialogFragment">ОК</string>
     <string name="negativeButtonDialogFragment">ОТМЕНА</string>
+    <string name="show_subgroup">Показать подгруппы</string>
+    <string name="hide_subgroup">Скрыть</string>
 </resources>

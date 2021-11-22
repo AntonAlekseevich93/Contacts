@@ -14,8 +14,16 @@ public class MapConverter {
     @TypeConverter
     public String getStringFromMap(Map<Integer, String> map) {
         StringBuilder mapAsString = new StringBuilder();
+
+        int sizeMap = map.size()-1;
+        int counter = 0;
         for (Integer key : map.keySet()) {
-            mapAsString.append(key + "=" + map.get(key) + ",");
+            if(counter == sizeMap){
+                mapAsString.append(key + "=" + map.get(key));
+            } else {
+                mapAsString.append(key + "=" + map.get(key) + ",");
+            }
+            counter++;
         }
         return mapAsString.toString();
     }
@@ -29,6 +37,7 @@ public class MapConverter {
             String[] keyValue = pair.split("=");
             myMap.put(Integer.parseInt(keyValue[0]), keyValue[1]);
         }
-        return myMap;
+        return myMap; 
+
     }
 }

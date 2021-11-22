@@ -9,33 +9,21 @@ public class SubGroupContact {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String nameSubGroup;
-    private String nameGroup;
-
-
-
+    private int idGroup;
     @Ignore
     private boolean isSelect = false;
 
-    @Ignore
-    public boolean isSelect() {
-        return isSelect;
-    }
 
-    @Ignore
-    public void setSelect(boolean select) {
-        isSelect = select;
-    }
-
-    public SubGroupContact(int id, String nameSubGroup, String nameGroup) {
+    public SubGroupContact(int id, String nameSubGroup, int idGroup) {
         this.id = id;
         this.nameSubGroup = nameSubGroup;
-        this.nameGroup = nameGroup;
+        this.idGroup = idGroup;
     }
 
     @Ignore
-    public SubGroupContact(String nameSubGroup, String nameGroup) {
+    public SubGroupContact(String nameSubGroup, int idGroup) {
         this.nameSubGroup = nameSubGroup;
-        this.nameGroup = nameGroup;
+        this.idGroup = idGroup;
     }
 
     public int getId() {
@@ -54,11 +42,22 @@ public class SubGroupContact {
         this.nameSubGroup = nameSubGroup;
     }
 
-    public String getNameGroup() {
-        return nameGroup;
+
+    public int getIdGroup() {
+        return idGroup;
     }
 
-    public void setNameGroup(String nameGroup) {
-        this.nameGroup = nameGroup;
+    public void setIdGroup(int idGroup) {
+        this.idGroup = idGroup;
+    }
+
+    @Ignore
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    @Ignore
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 }

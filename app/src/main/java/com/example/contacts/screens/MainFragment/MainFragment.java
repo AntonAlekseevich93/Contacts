@@ -1,11 +1,10 @@
-package com.example.contacts.screens.groupFragment;
+package com.example.contacts.screens.MainFragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,30 +17,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contacts.R;
+import com.example.contacts.data.relation.SubGroupOfSelectGroup;
 import com.example.contacts.entity.GroupContacts;
 import com.example.contacts.screens.createContactFragment.CreateContactFragment;
-import com.example.contacts.screens.contactFragment.ContactFragment;
+import com.example.contacts.screens.contactsFragment.ContactsFragment;
 import com.example.contacts.screens.dialogFragmentContact.DialogFragmentContacts;
-import com.example.contacts.screens.groupFragment.adapter.GroupAdapter;
+import com.example.contacts.screens.MainFragment.adapter.MainAdapterGroup;
 import com.example.contacts.screens.viewmodel.ContactViewModel;
 import com.example.contacts.support.ActionEnum;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
-public class GroupFragment extends Fragment {
+public class MainFragment extends Fragment {
     private ContactViewModel viewModel;
     private RecyclerView recyclerView;
-    private GroupAdapter adapter;
+    private MainAdapterGroup adapter;
     private List<GroupContacts> listOfContact = new ArrayList<>();
     private Context context;
     private FragmentManager fragmentManager;
     private FloatingActionButton fabAddNewContact;
-    public static final String PARAM_BUNDLE_KEY1 = "param1";
+    public static final String PARAM_BUNDLE_KEY_ID = "param1";
+    public static final String PARAM_BUNDLE_KEY_TYPE = "param2";
     private TextView tvNameToolbar;
-
+    boolean loading = false;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -55,11 +56,17 @@ public class GroupFragment extends Fragment {
         super.onCreate(savedInstanceState);
         fragmentManager = getParentFragmentManager();
         viewModel = new ViewModelProvider(requireActivity()).get(ContactViewModel.class);
-        adapter = new GroupAdapter(context, listOfContact, s -> {
-            openGroupOfContact(s);
-            return null;
-        }, s -> {
-            new DialogFragmentContacts(viewModel, s, ActionEnum.EDIT_GROUP).show(getChildFragmentManager(), DialogFragmentContacts.TAG);
+        adapter = new MainAdapterGroup(context, listOfContact,
+/**
+ * Функция возвращает id (type 0 = group, 1 = subgroup) и открывает фрагмент с контактами данной группы
+ */
+                (id, type) -> {
+                    MainFragment.this.openGroupOfContact(id, type);
+                    return null;
+                },
+
+                s -> {
+            new DialogFragmentContacts(viewModel, s, -1, ActionEnum.EDIT_GROUP).show(getChildFragmentManager(), DialogFragmentContacts.TAG);
             return null;
         });
 
@@ -69,7 +76,7 @@ public class GroupFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return LayoutInflater.from(getContext()).inflate(R.layout.layout_group_fragment, container, false);
+        return LayoutInflater.from(getContext()).inflate(R.layout.main_fragment_show_group_with_nested_subgroup, container, false);
     }
 
     @Override
@@ -81,15 +88,23 @@ public class GroupFragment extends Fragment {
         tvNameToolbar.setText(R.string.toolbar_name_group);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
 
-        LiveData<List<GroupContacts>> liveData = viewModel.getAllGroupContacts();
-        liveData.observe(getViewLifecycleOwner(), groupContacts -> {
-            if (groupContacts != null) adapter.setListOfContact(groupContacts);
-        });
 
+
+        viewModel.getAllGroupContactsWithNestedSubGroupFromDB();
+        LiveData<List<SubGroupOfSelectGroup>> liveData = viewModel.getGroupAndSubgroupForSelected();
+        liveData.observe(getViewLifecycleOwner(), subGroupOfSelectGroups -> {
+
+            if (subGroupOfSelectGroups != null) {
+                loading = false;
+                adapter.setListGroupAndSubgroup(subGroupOfSelectGroups);
+            }
+
+        });
         fabAddNewContact.setOnClickListener(v -> {
             fragmentManager.beginTransaction()
                     .replace(R.id.containerGroup, new CreateContactFragment())
@@ -98,18 +113,22 @@ public class GroupFragment extends Fragment {
         });
 
 
-
-
     }
 
-    private void openGroupOfContact(String nameGroup) {
-        ContactFragment contactFragment = new ContactFragment();
+    /**
+     * Функция открывает фрагмент с контактами выбранной группы
+     *
+     * @param id id выбранной группы
+     */
+    private void openGroupOfContact(Integer id, int type) {
+        ContactsFragment contactsFragment = new ContactsFragment();
         Bundle arguments = new Bundle();
-        arguments.putString(PARAM_BUNDLE_KEY1, nameGroup);
-        contactFragment.setArguments(arguments);
+        arguments.putInt(PARAM_BUNDLE_KEY_ID, id);
+        arguments.putInt(PARAM_BUNDLE_KEY_TYPE, type);
+        contactsFragment.setArguments(arguments);
 
         fragmentManager.beginTransaction()
-                .replace(R.id.containerGroup, contactFragment)
+                .replace(R.id.containerGroup, contactsFragment)
                 .addToBackStack(null)
                 .commit();
     }

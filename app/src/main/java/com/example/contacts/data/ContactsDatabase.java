@@ -6,12 +6,16 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+
 import com.example.contacts.data.dao.ContactsDao;
 import com.example.contacts.entity.Contact;
+import com.example.contacts.entity.ContactWithGroups;
 import com.example.contacts.entity.GroupContacts;
 import com.example.contacts.entity.SubGroupContact;
 
-@Database(entities = {GroupContacts.class, Contact.class, SubGroupContact.class}, version = 4, exportSchema = false)
+
+
+@Database(entities = {GroupContacts.class, Contact.class, SubGroupContact.class, ContactWithGroups.class}, version = 10, exportSchema = false)
 public abstract class ContactsDatabase extends RoomDatabase {
     private static ContactsDatabase contactsDatabase;
     private static final String DB_NAME = "contact.db";

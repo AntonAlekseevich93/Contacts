@@ -33,6 +33,7 @@ public class DialogFragmentContacts extends DialogFragment {
     private String nameSelectedGroup;
     private ActionEnum actionEnum;
     private int nameTitleDialog;
+    private int idGroup;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -40,12 +41,12 @@ public class DialogFragmentContacts extends DialogFragment {
         this.context = context;
     }
 
-    public DialogFragmentContacts(ContactViewModel viewModel, String nameSelectedGroup, ActionEnum actionEnum) {
+    public DialogFragmentContacts(ContactViewModel viewModel, String nameSelectedGroup, int idGroup, ActionEnum actionEnum) {
         this.viewModel = viewModel;
         this.nameSelectedGroup = nameSelectedGroup;
         this.actionEnum = actionEnum;
+        this.idGroup = idGroup;
     }
-
 
 
     @NonNull
@@ -57,7 +58,7 @@ public class DialogFragmentContacts extends DialogFragment {
 
         editText = view.findViewById(R.id.editTextDialogFragmentNewGroup);
 
-        switch (actionEnum){
+        switch (actionEnum) {
             case CREATE_NEW_GROUP:
                 nameTitleDialog = R.string.dialogFragmentNameCreateGroup;
                 break;
@@ -79,7 +80,7 @@ public class DialogFragmentContacts extends DialogFragment {
                     getChildFragmentManager().popBackStack();
                 })))
                 .setPositiveButton(getString(R.string.positiveButtonDialogFragment), ((dialogInterface, i) -> {
-                    switch (actionEnum){
+                    switch (actionEnum) {
                         case CREATE_NEW_GROUP:
                             String sNewGroup = editText.getText().toString();
                             LiveData<Boolean> liveData = viewModel.createNewGroup(sNewGroup);
@@ -94,7 +95,7 @@ public class DialogFragmentContacts extends DialogFragment {
                         case CREATE_NEW_SUB_GROUP:
                             String nameSubGroup = editText.getText().toString();
 
-                            LiveData<Boolean> liveData2 = viewModel.createNewSubGroup(nameSelectedGroup, nameSubGroup);
+                            LiveData<Boolean> liveData2 = viewModel.createNewSubGroup(idGroup, nameSubGroup);
                             liveData2.observe(requireActivity(), aBoolean -> {
                                 if (aBoolean)
                                     Toast.makeText(context, "Подгруппа добавлена", Toast.LENGTH_SHORT).show();
@@ -105,13 +106,13 @@ public class DialogFragmentContacts extends DialogFragment {
 
                         case EDIT_GROUP:
                             String newNameGroup = editText.getText().toString();
-                            LiveData<Boolean> liveData3 = viewModel.editNewGroup(nameSelectedGroup, newNameGroup);
-                            liveData3.observe(requireActivity(), aBoolean -> {
-                                if (aBoolean)
-                                    Toast.makeText(context, "Название группы изменено", Toast.LENGTH_SHORT).show();
-                                else
-                                    Toast.makeText(context, "Такая группа уже существует", Toast.LENGTH_SHORT).show();
-                            });
+//                            LiveData<Boolean> liveData3 = viewModel.editNewGroup(nameSelectedGroup, newNameGroup);
+//                            liveData3.observe(requireActivity(), aBoolean -> {
+//                                if (aBoolean)
+//                                    Toast.makeText(context, "Название группы изменено", Toast.LENGTH_SHORT).show();
+//                                else
+//                                    Toast.makeText(context, "Такая группа уже существует", Toast.LENGTH_SHORT).show();
+//                            });
 
                             break;
 

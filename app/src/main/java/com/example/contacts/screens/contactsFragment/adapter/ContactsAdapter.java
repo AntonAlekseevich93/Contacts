@@ -1,4 +1,4 @@
-package com.example.contacts.screens.contactFragment.adapter;
+package com.example.contacts.screens.contactsFragment.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,32 +11,39 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contacts.R;
 import com.example.contacts.entity.Contact;
+import com.example.contacts.entity.ContactWithGroups;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {
     private Context context;
-    private List<Contact> listOfContacts;
+    private List<ContactWithGroups> listOfContacts;
 
-    public ContactAdapter(Context context, List<Contact> listOfContacts) {
+    public ContactsAdapter(Context context, List<ContactWithGroups> listOfContacts) {
         this.context = context;
         this.listOfContacts = listOfContacts;
     }
 
-    public void setList(List<Contact> listOfContacts) {
+    public void setList(List<ContactWithGroups> listOfContacts) {
         this.listOfContacts = listOfContacts;
         notifyDataSetChanged();
     }
 
+    public void clearList() {
+        listOfContacts.clear();
+    }
+
+
     @NonNull
     @Override
-    public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.layout_contact_item, parent, false);
-        return new ContactViewHolder(v, this);
+        return new ContactsViewHolder(v, this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContactAdapter.ContactViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ContactsViewHolder holder, int position) {
         if (listOfContacts != null) {
             holder.tvNameContact.setText(listOfContacts.get(position).getName());
         }
@@ -44,16 +51,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
     @Override
     public int getItemCount() {
-        if (listOfContacts != null) {
-            return listOfContacts.size();
-        } else return 0;
+        return listOfContacts.size();
     }
 
-    public class ContactViewHolder extends RecyclerView.ViewHolder {
-        public final TextView tvNameContact;
-        final ContactAdapter adapter;
+    public class ContactsViewHolder extends RecyclerView.ViewHolder {
+        private final TextView tvNameContact;
+        final ContactsAdapter adapter;
 
-        public ContactViewHolder(@NonNull View itemView, ContactAdapter adapter) {
+        public ContactsViewHolder(@NonNull View itemView, ContactsAdapter adapter) {
             super(itemView);
             this.tvNameContact = itemView.findViewById(R.id.tvNameContact);
             this.adapter = adapter;

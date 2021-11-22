@@ -9,14 +9,14 @@ public class GroupContacts {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String nameGroup;
-    private String subgroup;
     @Ignore
     private boolean isSelect = false;
+    @Ignore
+    private boolean isExpandable = false;
 
-    public GroupContacts(int id, String nameGroup, String subgroup) {
+    public GroupContacts(int id, String nameGroup) {
         this.id = id;
         this.nameGroup = nameGroup;
-        this.subgroup = subgroup;
     }
 
     @Ignore
@@ -24,11 +24,6 @@ public class GroupContacts {
         this.nameGroup = nameGroup;
     }
 
-    @Ignore
-    public GroupContacts(String nameGroup, String subgroup) {
-        this.nameGroup = nameGroup;
-        this.subgroup = subgroup;
-    }
 
     public int getId() {
         return id;
@@ -38,13 +33,6 @@ public class GroupContacts {
         this.id = id;
     }
 
-    public String getSubgroup() {
-        return subgroup;
-    }
-
-    public void setSubgroup(String subgroup) {
-        this.subgroup = subgroup;
-    }
 
     public String getNameGroup() {
         return nameGroup;
@@ -62,5 +50,15 @@ public class GroupContacts {
     @Ignore
     public void setSelect(boolean select) {
         isSelect = select;
+    }
+
+    @Ignore
+    public boolean isExpandable() {
+        return isExpandable;
+    }
+
+    @Ignore
+    public void setExpandable(boolean expandable) {
+        isExpandable = expandable;
     }
 }
