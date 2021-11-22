@@ -17,6 +17,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.LiveData;
 
 import com.example.contacts.R;
+import com.example.contacts.screens.MainActivity;
 import com.example.contacts.screens.viewmodel.ContactViewModel;
 import com.example.contacts.support.ActionEnum;
 
@@ -34,6 +35,7 @@ public class DialogFragmentContacts extends DialogFragment {
     private ActionEnum actionEnum;
     private int nameTitleDialog;
     private int idGroup;
+    private int position;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -41,11 +43,20 @@ public class DialogFragmentContacts extends DialogFragment {
         this.context = context;
     }
 
-    public DialogFragmentContacts(ContactViewModel viewModel, String nameSelectedGroup, int idGroup, ActionEnum actionEnum) {
+    public DialogFragmentContacts(ContactViewModel viewModel, String nameSelectedGroup,int position,  int idGroup, ActionEnum actionEnum) {
         this.viewModel = viewModel;
         this.nameSelectedGroup = nameSelectedGroup;
         this.actionEnum = actionEnum;
         this.idGroup = idGroup;
+        this.position = position;
+    }
+
+    public DialogFragmentContacts(ContactViewModel viewModel,  ActionEnum actionEnum) {
+        this.viewModel = viewModel;
+        this.nameSelectedGroup = nameSelectedGroup;
+        this.actionEnum = actionEnum;
+        this.idGroup = idGroup;
+        this.position = position;
     }
 
 
@@ -106,13 +117,13 @@ public class DialogFragmentContacts extends DialogFragment {
 
                         case EDIT_GROUP:
                             String newNameGroup = editText.getText().toString();
-//                            LiveData<Boolean> liveData3 = viewModel.editNewGroup(nameSelectedGroup, newNameGroup);
-//                            liveData3.observe(requireActivity(), aBoolean -> {
-//                                if (aBoolean)
-//                                    Toast.makeText(context, "Название группы изменено", Toast.LENGTH_SHORT).show();
-//                                else
-//                                    Toast.makeText(context, "Такая группа уже существует", Toast.LENGTH_SHORT).show();
-//                            });
+                            LiveData<Boolean> liveData3 = viewModel.editNameGroupOrSubgroup(nameSelectedGroup, newNameGroup, 0);
+                            liveData3.observe(requireActivity(), aBoolean -> {
+                                if (aBoolean) {
+                                    Toast.makeText(context, "Название группы изменено", Toast.LENGTH_SHORT).show();
+                                } else
+                                    Toast.makeText(context, "Такая группа уже существует", Toast.LENGTH_SHORT).show();
+                            });
 
                             break;
 
@@ -152,5 +163,6 @@ public class DialogFragmentContacts extends DialogFragment {
             }
         });
     }
+
 }
 

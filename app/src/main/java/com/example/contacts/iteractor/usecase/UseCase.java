@@ -52,20 +52,7 @@ public class UseCase {
     // ПЕРЕДЕЛАТЬ
 
 
-//    public Single<Boolean> editNameGroup(String nameSelectedGroup, String newNameGroup) {
-//        return Single.create(new SingleOnSubscribe<Boolean>() {
-//            @Override
-//            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
-//                int size = contactsDatabase.contactsDao().checkIfGroupExist(newNameGroup).size();
-//                if (size > 0) emitter.onSuccess(false);
-//                else {
-//                    contactsDatabase.contactsDao().editNameGroup(nameSelectedGroup, newNameGroup);
-//                    contactsDatabase.contactsDao().editNameGroupFromTableSubGroup(nameSelectedGroup, newNameGroup);
-//                    emitter.onSuccess(true);
-//                }
-//            }
-//        });
-//    }
+//
 
 
     /**
@@ -169,6 +156,12 @@ public class UseCase {
         });
     }
 
+    /**
+     * Метод возвращает Список контактов принадлежащих группе или подгруппе
+     * @param id - id группы или подгруппы
+     * @param type - тип, где 0 - группа, 1 подгруппа
+     * @return возвращает List контактов этой группы или подгруппы
+     */
     public Flowable<List<ContactWithGroups>> getAllContacts(int id, int type) {
         return new Flowable<List<ContactWithGroups>>() {
             @Override
@@ -178,6 +171,30 @@ public class UseCase {
                     s.onNext(contactsDatabase.contactsDao().getAllContactThisSubGroup(id));
             }
         };
+    }
+
+    /**
+     * Метод
+     * @param name имя группы или подгруппы
+     * @param newName новое имя
+     * @param type тип, где 0 - группа, 1 - подгруппа
+     * @return возвращает true если название изменено, false если такое название уже существует
+     */
+    public Single<Boolean> editNameGroupOrSubgroup(String name, String newName, int type) {
+        return Single.create(new SingleOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Boolean> emitter) throws Exception {
+                if(type == 0) {
+                    int size = contactsDatabase.contactsDao().checkIfGroupExist(newName).size();
+                    if (size > 0) emitter.onSuccess(false);
+                    else {
+                        contactsDatabase.contactsDao().editNameGroup(name, newName);
+                        contactsDatabase.contactsDao().editNameGroup(name, newName);
+                        emitter.onSuccess(true);
+                    }
+                }
+            }
+        });
     }
 
 }

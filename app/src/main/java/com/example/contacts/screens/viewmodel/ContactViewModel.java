@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.contacts.data.relation.SubGroupOfSelectGroup;
-import com.example.contacts.entity.Contact;
 import com.example.contacts.entity.ContactWithGroups;
 import com.example.contacts.entity.GroupContacts;
 import com.example.contacts.entity.SubGroupContact;
@@ -147,17 +146,7 @@ public class ContactViewModel extends ViewModel {
     }
 
 
-//    public LiveData<Boolean> editNewGroup(String nameSelectedGroup, String newNameGroup) {
-//        createBooleanLiveData();
 //
-//        disposable.add(useCase.editNameGroup(nameSelectedGroup, newNameGroup)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(Boolean -> {
-//                    booleanMutableLiveData.postValue(Boolean);
-//                }));
-//        return booleanMutableLiveData;
-//    }
 
     private void createBooleanLiveData() {
         if (booleanMutableLiveData == null) {
@@ -303,6 +292,18 @@ public class ContactViewModel extends ViewModel {
     public LiveData<Map<Integer, String>> getMapOfSelectedSubGroup() {
         if (mapOfSelectedSubGroup == null) mapOfSelectedSubGroup = new MutableLiveData<>();
         return mapOfSelectedSubGroup;
+    }
+
+
+    public LiveData<Boolean> editNameGroupOrSubgroup(String name, String newName, int type) {
+        createBooleanLiveData();
+        disposable.add(useCase.editNameGroupOrSubgroup(name, newName, type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(Boolean -> {
+                    booleanMutableLiveData.postValue(Boolean);
+                }));
+        return booleanMutableLiveData;
     }
 
 }

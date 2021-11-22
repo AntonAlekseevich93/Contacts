@@ -116,7 +116,7 @@ public class SelectGroupAndSubgroupFragment extends Fragment {
             /**
              * функция создает DialogFragment для создания новой подгруппы
              */
-            new DialogFragmentContacts(viewModel, null, integer, ActionEnum.CREATE_NEW_SUB_GROUP)
+            new DialogFragmentContacts(viewModel, null, -1,  integer, ActionEnum.CREATE_NEW_SUB_GROUP)
                     .show(getChildFragmentManager(), DialogFragmentContacts.TAG);
             return null;
         });
@@ -151,7 +151,7 @@ public class SelectGroupAndSubgroupFragment extends Fragment {
          * Метод создает DialogFragment для создания новой группы
          */
         layoutCreateNewGroup.setOnClickListener(view1 -> {
-            new DialogFragmentContacts(viewModel, null, -1, ActionEnum.CREATE_NEW_GROUP).show(getChildFragmentManager(), DialogFragmentContacts.TAG);
+            new DialogFragmentContacts(viewModel, ActionEnum.CREATE_NEW_GROUP).show(getChildFragmentManager(), DialogFragmentContacts.TAG);
         });
 
         /**

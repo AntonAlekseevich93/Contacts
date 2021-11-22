@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment  {
     private ContactViewModel viewModel;
     private RecyclerView recyclerView;
     private MainAdapterGroup adapter;
@@ -65,10 +65,14 @@ public class MainFragment extends Fragment {
                     return null;
                 },
 
-                s -> {
-            new DialogFragmentContacts(viewModel, s, -1, ActionEnum.EDIT_GROUP).show(getChildFragmentManager(), DialogFragmentContacts.TAG);
-            return null;
-        });
+                new BiFunction<String, Integer, Void>() {
+                    @Override
+                    public Void apply(String name, Integer position) {
+                        System.out.println(position + " ПОЗИЦИЯ main Fragment УШЛА из адаптера");
+                        new DialogFragmentContacts(viewModel, name, position, -1, ActionEnum.EDIT_GROUP).show(MainFragment.this.getChildFragmentManager(), DialogFragmentContacts.TAG);
+                        return null;
+                    }
+                });
 
 
     }
@@ -93,12 +97,9 @@ public class MainFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-
-
         viewModel.getAllGroupContactsWithNestedSubGroupFromDB();
         LiveData<List<SubGroupOfSelectGroup>> liveData = viewModel.getGroupAndSubgroupForSelected();
         liveData.observe(getViewLifecycleOwner(), subGroupOfSelectGroups -> {
-
             if (subGroupOfSelectGroups != null) {
 
                 adapter.setListGroupAndSubgroup(subGroupOfSelectGroups);
@@ -144,4 +145,6 @@ public class MainFragment extends Fragment {
 //                Toast.makeText(view.getContext(), getResources().getString(R.string.toast_message_group_exist), Toast.LENGTH_SHORT).show();
 //        });
     }
+
+
 }

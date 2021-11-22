@@ -12,10 +12,11 @@ import com.example.contacts.R;
 import com.example.contacts.entity.GroupContacts;
 import com.example.contacts.iteractor.usecase.UseCase;
 import com.example.contacts.screens.MainFragment.MainFragment;
+import com.example.contacts.screens.dialogFragmentContact.DialogFragmentContacts;
 import com.example.contacts.screens.viewmodel.ContactViewModel;
 import com.example.contacts.screens.viewmodel.factory.ViewModelFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     private FragmentManager fragmentManager;
     private ContactViewModel viewModel;
     private UseCase useCase;
@@ -82,5 +83,6 @@ private void deleteAll(){
         thread.start();
 
 }
+
 
 }

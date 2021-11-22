@@ -46,11 +46,9 @@ public interface ContactsDao {
 
 
 
-    @Query("UPDATE groupContacts SET nameGroup = :newNameGroup WHERE nameGroup = :nameGroup")
-    void editNameGroup(String nameGroup, String newNameGroup);
 
-//    @Query("UPDATE subgroup SET nameGroup = :newNameGroup WHERE nameGroup = :nameGroup")
-//    void editNameGroupFromTableSubGroup(String nameGroup, String newNameGroup);
+
+//
 
 
 
@@ -100,4 +98,10 @@ public interface ContactsDao {
     //Проверяет, существует ли такая подгруппа
     @Query("SELECT * FROM subgroup WHERE nameSubGroup = :nameSubGroup")
     List<SubGroupContact> checkIfSubGroupExist(String nameSubGroup);
+
+    @Query("UPDATE groupContacts SET nameGroup = :newName WHERE nameGroup = :name")
+    void editNameGroup(String name, String newName);
+
+//    @Query("UPDATE subgroup SET nameGroup = :newNameGroup WHERE nameGroup = :nameGroup")
+//    void editNameGroupFromTableSubGroup(String nameGroup, String newNameGroup);
 }
