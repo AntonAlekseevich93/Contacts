@@ -20,13 +20,37 @@
 
             <TextView
                 android:id="@+id/tvNameContact"
-                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/imageViewInfoAboutContact"
+                android:textSize="20sp" />
 
-                />
+            <ImageView
+                android:id="@+id/imageViewInfoAboutContact"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
 
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/edit_contact_imageview"
+                app:srcCompat="@drawable/ic_baseline_info_24" />
+
+
+            <ImageView
+                android:id="@+id/edit_contact_imageview"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/imageViewDeleteContact"
+                app:srcCompat="@drawable/ic_baseline_edit_24" />
+
+            <ImageView
+                android:id="@+id/imageViewDeleteContact"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

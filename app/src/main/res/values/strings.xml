@@ -18,4 +18,7 @@
     <string name="negativeButtonDialogFragment">ОТМЕНА</string>
     <string name="show_subgroup">Показать подгруппы</string>
     <string name="hide_subgroup">Скрыть</string>
+    <string name="type_contact">Контакт</string>
+    <string name="type_group">Группу</string>
+    <string name="type_subgroup">Подгруппу</string>
 </resources>
