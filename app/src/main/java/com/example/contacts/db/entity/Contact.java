@@ -1,15 +1,8 @@
 package com.example.contacts.db.entity;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Fts4;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.example.contacts.support.MapConverter;
-
-import java.util.Map;
 
 @Entity(tableName = "contacts")
 public class Contact {

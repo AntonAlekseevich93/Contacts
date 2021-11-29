@@ -41,14 +41,6 @@ public class DialogFragmentContacts extends DialogFragment {
         this.context = context;
     }
 
-    public DialogFragmentContacts(ContactViewModel contactViewModel, String nameSelectedGroup, int idGroup, ActionEnum actionEnum) {
-        this.contactViewModel = contactViewModel;
-        this.nameSelectedGroup = nameSelectedGroup;
-        this.actionEnum = actionEnum;
-        this.idGroup = idGroup;
-
-    }
-
     public DialogFragmentContacts(ContactViewModel contactViewModel, String nameSelectedGroup, ActionEnum actionEnum) {
         this.contactViewModel = contactViewModel;
         this.nameSelectedGroup = nameSelectedGroup;

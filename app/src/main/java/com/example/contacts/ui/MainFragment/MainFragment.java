@@ -17,14 +17,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contacts.R;
-import com.example.contacts.db.relation.SubGroupOfSelectGroup;
 import com.example.contacts.db.entity.GroupContacts;
-import com.example.contacts.ui.createContactFragment.CreateContactFragment;
-import com.example.contacts.ui.contactsFragment.ContactsFragment;
-import com.example.contacts.ui.DialogFragmentContacts;
-import com.example.contacts.ui.MainFragment.adapter.MainAdapterGroup;
-import com.example.contacts.viewmodel.ContactViewModel;
+import com.example.contacts.db.relation.SubGroupOfSelectGroup;
 import com.example.contacts.support.ActionEnum;
+import com.example.contacts.support.BottomSheetDialogGroup;
+import com.example.contacts.ui.MainFragment.adapter.MainAdapterGroup;
+import com.example.contacts.ui.contactsFragment.ContactsFragment;
+import com.example.contacts.ui.createContactFragment.CreateContactFragment;
+import com.example.contacts.viewmodel.ContactViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public class MainFragment extends Fragment {
     private FragmentManager fragmentManager;
     private FloatingActionButton fabAddNewContact;
     public static final String PARAM_BUNDLE_KEY_ID = "param1";
-    public static final String PARAM_BUNDLE_KEY_TYPE = "param2";
+    public static final String PARAM_BUNDLE_KEY_NAME = "param2";
+    public static final String PARAM_BUNDLE_KEY_TYPE = "param3";
     private TextView tvNameToolbar;
 
 
@@ -64,18 +66,20 @@ public class MainFragment extends Fragment {
                     return null;
                 },
                 /**
-                 * Функиця возвращает имя группы или подгруппы для изменения имени
-                 * и тип, где 0 - группа, 1 - подгруппа
+                 * Функиця возвращает
+                 * имя группы или подгруппы для изменения имени
+                 * тип, где 0 - группа, 1 - подгруппа
+                 * id группы или подгруппы
                  */
-                (name, type) -> {
-                    if (type == 0)
-                        new DialogFragmentContacts(contactViewModel, name,
-                                ActionEnum.EDIT_GROUP).show(MainFragment.this.getChildFragmentManager(),
-                                DialogFragmentContacts.TAG);
-                    else if (type == 1)
-                        new DialogFragmentContacts(contactViewModel, name,
-                                ActionEnum.EDIT_SUB_GROUP).show(MainFragment.this.getChildFragmentManager(),
-                                DialogFragmentContacts.TAG);
+                (name, type, id) -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(PARAM_BUNDLE_KEY_NAME, name);
+                    bundle.putInt(PARAM_BUNDLE_KEY_TYPE, type);
+                    bundle.putInt(PARAM_BUNDLE_KEY_ID, id);
+                    BottomSheetDialogFragment bottomSheetDialogFragment = BottomSheetDialogGroup.newInstance();
+                    bottomSheetDialogFragment.setArguments(bundle);
+                    bottomSheetDialogFragment.show(MainFragment.this.getParentFragmentManager(),
+                            "BottomSheetGroup");
                     return null;
                 });
 
@@ -98,6 +102,8 @@ public class MainFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+
+
         CreateContactFragment createContactFragment = new CreateContactFragment();
 
         getAllGroupWithNestedSubgroupSetToAdapter();

@@ -13,13 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contacts.R;
-import com.example.contacts.db.relation.SubGroupOfSelectGroup;
 import com.example.contacts.db.entity.GroupContacts;
 import com.example.contacts.db.entity.SubGroupContact;
+import com.example.contacts.db.relation.SubGroupOfSelectGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
+
+import io.reactivex.functions.Function3;
 
 public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.ContactViewHolder> {
     private List<GroupContacts> listOfGroup = new ArrayList<>();
@@ -28,12 +30,13 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
     private Context context;
     private LayoutInflater inflater;
     private BiFunction<Integer, Integer, Void> clickListenerGroup;
-    private BiFunction<String, Integer, Void> clickListenerEditGroup;
-    private ImageView imageViewEditGroupNameButton;
+    private Function3<String, Integer, Integer, Void> clickListenerEditGroup;
     private MainNestedAdapterSubGroup adapter;
 
 
-    public MainAdapterGroup(Context context, List<GroupContacts> listOfGroup, BiFunction<Integer, Integer, Void> clickListenerGroup, BiFunction<String, Integer, Void> clickListenerEditGroup) {
+    public MainAdapterGroup(Context context, List<GroupContacts> listOfGroup,
+                            BiFunction<Integer, Integer, Void> clickListenerGroup,
+                            Function3<String, Integer, Integer, Void> clickListenerEditGroup) {
         this.listOfGroup = listOfGroup;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -45,10 +48,6 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
         this.listSubGroupOfSelectedGroup = listSubGroupOfSelectedGroup;
         createListGroup(this.listSubGroupOfSelectedGroup);
         notifyDataSetChanged();
-    }
-
-    public int getListSize() {
-        return listSubGroupOfSelectedGroup.size();
     }
 
     /**
@@ -99,9 +98,14 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
                 /**
                  * Функция получает name подгруппы для редактирования названия подгруппы
                  * Вторым параметром мы передаем во фрагмент тип подгруппы - 1
+                 * Третий параметр id подгруппы
                  */
-                s -> {
-                    clickListenerEditGroup.apply(s, 1);
+                (name, id) -> {
+                    try {
+                        clickListenerEditGroup.apply(name, 1, id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     return null;
                 }
         );
@@ -112,8 +116,6 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
          */
         holder.clickExpandableGroup.setOnClickListener(view -> {
             listOfGroup.get(position).setExpandable(!listOfGroup.get(position).isExpandable());
-//            if (listSubGroup != null)
-//                listSubGroup = listSubGroupOfSelectedGroup.get(position).getListSubGroup();
             notifyItemChanged(holder.getAdapterPosition());
         });
     }
@@ -126,15 +128,13 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
         } else return 0;
     }
 
+
     class ContactViewHolder extends RecyclerView.ViewHolder {
-        //        public final TextView tvName;
         final MainAdapterGroup adapter;
         final TextView tvNameGroup;
         private RelativeLayout expandableLayout;
         private RecyclerView nestedRecyclerView;
         private TextView clickExpandableGroup;
-
-        //        public final RelativeLayout viewClickGroup;
         public final ImageView imageViewClickEditNameGroup;
 
         public ContactViewHolder(@NonNull View itemView, MainAdapterGroup adapter) {
@@ -144,9 +144,7 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
             expandableLayout = itemView.findViewById(R.id.main_expandable_layout);
             nestedRecyclerView = itemView.findViewById(R.id.main_child_rv);
             clickExpandableGroup = itemView.findViewById(R.id.tv_show_subgroup);
-//            viewClickGroup = itemView.findViewById(R.id.relativeLayoutNameGroup);
             imageViewClickEditNameGroup = itemView.findViewById(R.id.main_edit_group_imageview);
-//
             /**
              * ClickListener получает id группы и возвращает в фрагмент для получения списка
              * контактов данной группы
@@ -156,7 +154,11 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
                 clickListenerGroup.apply(idGroup, 0);
             });
             imageViewClickEditNameGroup.setOnClickListener(v -> {
-                clickListenerEditGroup.apply(tvNameGroup.getText().toString(), 0);
+                try {
+                    clickListenerEditGroup.apply(tvNameGroup.getText().toString(), 0, listOfGroup.get(getLayoutPosition()).getId());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             });
 
 

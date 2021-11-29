@@ -3,13 +3,12 @@ package com.example.contacts.db.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
-import com.example.contacts.db.relation.SubGroupOfSelectGroup;
 import com.example.contacts.db.entity.Contact;
 import com.example.contacts.db.entity.ContactWithGroups;
 import com.example.contacts.db.entity.GroupContacts;
 import com.example.contacts.db.entity.SubGroupContact;
+import com.example.contacts.db.relation.SubGroupOfSelectGroup;
 
 import java.util.List;
 
@@ -17,34 +16,6 @@ import io.reactivex.Flowable;
 
 @Dao
 public interface ContactsDao {
-//    @Insert
-//    void createGroup(GroupContacts groupContacts);
-
-    @Query("SELECT * FROM groupContacts ORDER BY nameGroup ASC")
-    Flowable<List<GroupContacts>> getAllGroupContacts();
-
-
-//    @Query("SELECT * FROM contacts WHERE mapOfGroup LIKE   '%' || :nameGroup || '%' ")
-//    Flowable<List<Contact>> getAllContactsOfGroup(String nameGroup);
-//
-//    @Query("SELECT * FROM subgroup WHERE `nameGroup` = :nameGroup")
-//    Flowable<List<SubGroupContact>> getAllSubGroup(String nameGroup);
-
-//
-//    @Query("DELETE FROM groupContacts")
-//    void deleteAllGroups();
-//
-//    @Query("DELETE FROM subgroup")
-//    void deleteAllSubGroup();
-//
-//    @Query("DELETE FROM contacts")
-//    void deleteAllContacts();
-
-
-//
-
-
-    // От СЮДА НОВЫЕ
     // Добавляет новый контакт в БД (в таблице одно поле - number phone)
     @Insert
     void insertNewContact(Contact contact);
@@ -82,6 +53,10 @@ public interface ContactsDao {
     //Удаляет группу из таблицы контактов
     @Query("UPDATE contactsWithGroups SET idGroup = :defaultValue WHERE idGroup = :id")
     void deleteGroupFromContact(int id, int defaultValue);
+
+    //Удаляет все подгруппы которые относятся к текущей группу
+    @Query("DELETE FROM subgroup WHERE idGroup =:idGroup")
+    void deleteSubgroupWhereGroupIsExist(int idGroup);
 
     //Удаляет подгруппу из таблицы подгрупп
     @Query("DELETE FROM subgroup WHERE id =:idSubGroup")
@@ -142,7 +117,4 @@ public interface ContactsDao {
     @Query("SELECT * FROM subgroup WHERE id = :idSubGroup")
     SubGroupContact getSubGroupForContact(int idSubGroup);
 
-
-//    @Query("UPDATE subgroup SET nameGroup = :newNameGroup WHERE nameGroup = :nameGroup")
-//    void editNameGroupFromTableSubGroup(String nameGroup, String newNameGroup);
 }

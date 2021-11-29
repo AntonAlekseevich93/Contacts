@@ -3,63 +3,34 @@ package com.example.contacts;
 import androidx.annotation.NonNull;
 
 import com.example.contacts.db.ContactsDatabase;
-import com.example.contacts.db.relation.SubGroupOfSelectGroup;
 import com.example.contacts.db.entity.Contact;
 import com.example.contacts.db.entity.ContactWithGroups;
 import com.example.contacts.db.entity.GroupContacts;
 import com.example.contacts.db.entity.SubGroupContact;
+import com.example.contacts.db.relation.SubGroupOfSelectGroup;
 import com.example.contacts.support.ActionEnum;
 
 import org.reactivestreams.Subscriber;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 
 public class DataRepository {
     private ContactsDatabase contactsDatabase;
-    private List<GroupContacts> listGroup;
     private List<Map<Integer, String>> maps = new ArrayList<>();
-    private Flowable<List<Map<Integer, String>>> flowable;
+
 
 
     public DataRepository(ContactsDatabase contactsDatabase) {
         this.contactsDatabase = contactsDatabase;
     }
-
-    // не нужен
-//    public Flowable<List<GroupContacts>> getAllGroupOfContacts() {
-//        return contactsDatabase.contactsDao().getAllGroupContacts();
-//    }
-
-//не нужен
-//    public Flowable<List<Contact>> getAllContactsOfGroup(String nameGroup) {
-//        System.out.println("Usecase " + nameGroup);
-//        return contactsDatabase.contactsDao().getAllContactsOfGroup(nameGroup);
-//    }
-// не нужен
-//    public Flowable<List<SubGroupContact>> getAllSubGroup(String nameSubGroup) {
-//        return contactsDatabase.contactsDao().getAllSubGroup(nameSubGroup);
-//    }
-
-
-    // ПЕРЕДЕЛАТЬ
-
-
-//
 
 
     /**
@@ -311,6 +282,7 @@ public class DataRepository {
                 case DELETE_GROUP:
                     contactsDatabase.contactsDao().deleteGroup(idDelete);
                     contactsDatabase.contactsDao().deleteGroupFromContact(idDelete, -1);
+                    contactsDatabase.contactsDao().deleteSubgroupWhereGroupIsExist(idDelete);
                     break;
 
                 case DELETE_SUBGROUP:

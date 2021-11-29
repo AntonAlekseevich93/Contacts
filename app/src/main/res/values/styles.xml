@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="cardView" >
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="cardView">
         <!-- Other style attributes -->
-<!--        <item name="android:layout_margin">3dp</item>-->
+        <!--        <item name="android:layout_margin">3dp</item>-->
         <item name="cardCornerRadius">2dp</item>
         <item name="cardElevation">2dp</item>
         <item name="cardMaxElevation">4dp</item>
         <item name="android:layout_margin">3dp</item>
 
-<!--        <item name="contentPaddingBottom">12dp</item>-->
-<!--        <item name="contentPaddingTop">12dp</item>-->
-<!--        <item name="contentPaddingLeft">16dp</item>-->
-<!--        <item name="contentPaddingRight">16dp</item>-->
+        <!--        <item name="contentPaddingBottom">12dp</item>-->
+        <!--        <item name="contentPaddingTop">12dp</item>-->
+        <!--        <item name="contentPaddingLeft">16dp</item>-->
+        <!--        <item name="contentPaddingRight">16dp</item>-->
     </style>
 
     <style name="layout_item">
-       <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:paddingHorizontal">10dp</item>
     </style>
 
     <style name="ToolBarMyStyle">
 
         <item name="android:layout_height">55dp</item>
-<item name="android:background">@color/toolbar</item>
+        <item name="android:background">@color/toolbar</item>
     </style>
 
-<style name="dialogFragmentStyle" parent="Theme.AppCompat.Light.Dialog.Alert" >
-    <item name="android:textStyle">bold</item>
-    <item name="android:textColor">@color/colorApp</item>
-    <item name="android:textEditPasteWindowLayout">@color/cancel_color</item>
+    <style name="dialogFragmentStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorApp</item>
+        <item name="android:textEditPasteWindowLayout">@color/cancel_color</item>
 
-    <item name="android:windowTitleStyle">@color/colorApp</item>
-    <item name="android:windowBackground">@color/colorApp</item>
+        <item name="android:windowTitleStyle">@color/colorApp</item>
+        <item name="android:windowBackground">@color/colorApp</item>
 
-</style>
+    </style>
+
 
 </resources>

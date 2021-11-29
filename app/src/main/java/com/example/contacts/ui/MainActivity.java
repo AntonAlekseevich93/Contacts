@@ -45,46 +45,8 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-
-//        deleteAll();
-
     }
 
-    public void insetNewGroup() {
-        Thread thread = new Thread(() -> {
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 23"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 24"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 25"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 26"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 27"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 28"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 29"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 30"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 31"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 32"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 33"));
-            contactsDatabase.contactsDao().insertNewGroup(new GroupContacts("Группа 34"));
-
-        });
-        thread.start();
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    private void deleteAll() {
-        Thread thread = new Thread(() -> {
-//            contactsDatabase.contactsDao().deleteAllGroups();
-//            contactsDatabase.contactsDao().deleteAllContacts();
-//            contactsDatabase.contactsDao().deleteAllSubGroup();
-            contactsDatabase.contactsDao().deleteContactWithGroup(2);
-        });
-        thread.start();
-
-    }
 
 
 }

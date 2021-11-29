@@ -4,14 +4,10 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.example.contacts.db.entity.Contact;
-import com.example.contacts.db.relation.SubGroupOfSelectGroup;
-import com.example.contacts.db.entity.ContactWithGroups;
-import com.example.contacts.db.entity.GroupContacts;
-import com.example.contacts.db.entity.SubGroupContact;
 import com.example.contacts.DataRepository;
+import com.example.contacts.db.entity.ContactWithGroups;
+import com.example.contacts.db.relation.SubGroupOfSelectGroup;
 import com.example.contacts.support.ActionEnum;
 
 import org.jetbrains.annotations.NotNull;
@@ -80,9 +76,6 @@ public class ContactViewModel extends androidx.lifecycle.ViewModel {
             booleanMutableLiveData = new MutableLiveData<>();
         }
     }
-
-
-    // ОТ СЮДА НОВЫЕ
 
 
     /**
@@ -335,4 +328,6 @@ public class ContactViewModel extends androidx.lifecycle.ViewModel {
     public void delete(@NotNull ActionEnum actionEnum, int idDelete) {
         dataRepository.delete(actionEnum, idDelete);
     }
+
+
 }

@@ -28,7 +28,6 @@ import com.example.contacts.ui.createContactFragment.selectGroupAndSubgroupFragm
 import com.example.contacts.viewmodel.ContactViewModel;
 
 import java.util.List;
-import java.util.Map;
 
 public class CreateContactFragment extends Fragment {
     private ContactViewModel contactViewModel;
@@ -44,11 +43,7 @@ public class CreateContactFragment extends Fragment {
     private ActionEnum actionForThisFragment;
 
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
 
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,9 +69,7 @@ public class CreateContactFragment extends Fragment {
         adapterGroup = new AdapterCreateContactFragment(view.getContext());
         recyclerViewGroup.setAdapter(adapterGroup);
 
-
         ifThisEditContactAction();
-
 
         tvSelectGroup.setOnClickListener(v -> {
             fragmentManager.beginTransaction()

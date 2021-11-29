@@ -1,6 +1,5 @@
 package com.example.contacts.ui.contactsFragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +18,14 @@ import com.example.contacts.R;
 import com.example.contacts.db.entity.ContactWithGroups;
 import com.example.contacts.support.ActionEnum;
 import com.example.contacts.ui.DeleteFragment;
-import com.example.contacts.ui.contactsFragment.adapter.ContactsAdapter;
-import com.example.contacts.ui.MainFragment.MainFragment;
-import com.example.contacts.ui.createContactFragment.CreateContactFragment;
 import com.example.contacts.ui.InfoContactFragment;
+import com.example.contacts.ui.MainFragment.MainFragment;
+import com.example.contacts.ui.contactsFragment.adapter.ContactsAdapter;
+import com.example.contacts.ui.createContactFragment.CreateContactFragment;
 import com.example.contacts.viewmodel.ContactViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class ContactsFragment extends Fragment {
     private ContactViewModel contactViewModel;

@@ -125,27 +125,12 @@ public class SelectGroupAndSubgroupFragment extends Fragment {
          * Метод вызывается при нажатии на кнопку "сохранить" во фрагменте выбора групп и подгрупп
          */
         imageViewSaveSelectedGroupsAndSubGroupsForNewContact.setOnClickListener(view1 -> {
-//            viewModel.setMapOfSelectedGroup(tempMapOfSelectedGroup);
             contactViewModel.parseMapOfSelectedGroupAndSubGroupToList();
             SelectGroupAndSubgroupFragment.this.getParentFragmentManager().popBackStack();
         });
 
 
         recyclerView.setAdapter(adapter);
-
-
-//        LiveData<Map<Integer, String>> getSelectedGroup = viewModel.getMapOfSelectedGroup();
-//        getSelectedGroup.observe(getViewLifecycleOwner(), map1 -> {
-//            if (map1 != null) {
-//                List<GroupContacts> list = new ArrayList<>();
-//                map = map1;
-//                for(GroupContacts g : listGroup){
-//                    if(map.containsKey(g.getId())) g.setSelect(true);
-//                    list.add(g);
-//                }
-//                adapter.setList(list);
-//            }
-//        });
 
         /**
          * Метод создает DialogFragment для создания новой группы

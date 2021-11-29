@@ -20,5 +20,6 @@
     <color name="editButtonColor">#7192FB</color>
     <color name="colorSelectGroup">#CCD8FF</color>
     <color name="select_color">#DF291C</color>
+    <color name="gray_color">#59D1D1D1</color>
 
 </resources>

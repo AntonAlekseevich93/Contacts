@@ -194,31 +194,7 @@ public class SelectGroupAdapter extends RecyclerView.Adapter<SelectGroupAdapter.
                 }
                 notifyItemChanged(getLayoutPosition());
             });
-
-
-//            linearLayoutForSetBackground = itemView.findViewById(R.id.linearLayoutCreateGroupParent);
-//            relativeLayoutClickAtItem = itemView.findViewById(R.id.relativeLayoutNameGroup);
-
             this.adapter = adapter;
-//            relativeLayoutClickAtItem.setOnClickListener(v -> {
-//                if (!groupContactsList.get(getLayoutPosition()).isSelect()) {
-//                    groupContactsList.get(getLayoutPosition()).setSelect(true);
-//
-//                } else {
-//                    groupContactsList.get(getLayoutPosition()).setSelect(false);
-//
-//
-//                }
-//
-//                function.apply(groupContactsList.get(getLayoutPosition()).getId(), groupContactsList.get(getLayoutPosition()).getNameGroup());
-//
-//                notifyItemChanged(getLayoutPosition());
-//            });
-
-
-//
-
-
         }
     }
 
