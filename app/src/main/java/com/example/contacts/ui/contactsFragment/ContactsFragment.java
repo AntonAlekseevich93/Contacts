@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,17 +18,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.contacts.R;
 import com.example.contacts.db.entity.ContactWithGroups;
 import com.example.contacts.support.ActionEnum;
+import com.example.contacts.support.IClickListenerUpdateData;
 import com.example.contacts.ui.DeleteFragment;
 import com.example.contacts.ui.InfoContactFragment;
 import com.example.contacts.ui.MainFragment.MainFragment;
 import com.example.contacts.ui.contactsFragment.adapter.ContactsAdapter;
 import com.example.contacts.ui.createContactFragment.CreateContactFragment;
 import com.example.contacts.viewmodel.ContactViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsFragment extends Fragment {
+public class ContactsFragment extends Fragment implements IClickListenerUpdateData {
     private ContactViewModel contactViewModel;
     private int idGroup = -1;
     private int typeGroupOrSubgroup = -1;
@@ -35,7 +38,9 @@ public class ContactsFragment extends Fragment {
     private ContactsAdapter adapter;
     private List<ContactWithGroups> listOfContacts = new ArrayList<>();
     private TextView tvToolbarContactInfo;
+
     public static final String BUNDLE_ID_CONTACT_FOR_EDIT = "bundle.id.contact.for.edit";
+    private FloatingActionButton fabAddNewContact;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class ContactsFragment extends Fragment {
         tvToolbarContactInfo = view.findViewById(R.id.tvNameToolbar);
         tvToolbarContactInfo.setText(R.string.toolbar_name_contact);
         recyclerView = view.findViewById(R.id.recyclerView);
+        fabAddNewContact = view.findViewById(R.id.fabAddContact);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         adapter = new ContactsAdapter(view.getContext(), listOfContacts,
                 /**
@@ -82,16 +88,20 @@ public class ContactsFragment extends Fragment {
                  * Функция запускает фрагмент удаления контакта
                  */
                 , idContact -> {
-                    new DeleteFragment(contactViewModel, ActionEnum.DELETE_CONTACT, idContact, 0,
-                            //Функция оповещает, что контакт был удален для запроса контактов заново
-                            aBoolean -> {
-                        getAllContacts(idGroup, typeGroupOrSubgroup);
-                        return null;
-                    })
-                            .show(getChildFragmentManager(), DeleteFragment.TAG);
-                    return null;
-                });
+            startFragmentDeleteContact(ActionEnum.DELETE_CONTACT, idContact, 0);
+            return null;
+        });
         recyclerView.setAdapter(adapter);
+
+        CreateContactFragment createContactFragment = new CreateContactFragment();
+
+        fabAddNewContact.setOnClickListener(v -> {
+            contactViewModel.setActionForContacts(ActionEnum.CREATE_CONTACT);
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.containerGroup, createContactFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         getAllContacts(idGroup, typeGroupOrSubgroup);
     }
@@ -118,5 +128,20 @@ public class ContactsFragment extends Fragment {
                 adapter.setList(contacts);
             }
         });
+    }
+
+    @Override
+    public void update() {
+        getAllContacts(idGroup, typeGroupOrSubgroup);
+    }
+
+    private void startFragmentDeleteContact(ActionEnum actionEnum, int id, int type) {
+        DeleteFragment deleteFragment = new DeleteFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DeleteFragment.TAG_ACTION, actionEnum);
+        bundle.putInt(DeleteFragment.TAG_ID, id);
+        bundle.putInt(DeleteFragment.TAG_TYPE, type);
+        deleteFragment.setArguments(bundle);
+        deleteFragment.show(getChildFragmentManager(), DeleteFragment.TAG);
     }
 }

@@ -43,8 +43,6 @@ public class CreateContactFragment extends Fragment {
     private ActionEnum actionForThisFragment;
 
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,12 +78,11 @@ public class CreateContactFragment extends Fragment {
 
         imageViewSaveContact.setOnClickListener(v -> {
             if (actionForThisFragment == ActionEnum.CREATE_CONTACT) addNewContact();
-           else if(actionForThisFragment == ActionEnum.EDIT_CONTACT) editContact();
+            else if (actionForThisFragment == ActionEnum.EDIT_CONTACT) editContact();
         });
 
         setSelectGroupAndSubgroupToAdapter();
     }
-
 
 
     private void initializeViews(View view) {
@@ -112,9 +109,12 @@ public class CreateContactFragment extends Fragment {
             liveData.observe(getViewLifecycleOwner(), aBoolean -> {
                 if (aBoolean) {
                     Toast.makeText(getContext(), "Контакт добавлен", Toast.LENGTH_SHORT).show();
+                    contactViewModel.setBooleanLiveDataNull();
                     getParentFragmentManager().popBackStack();
-                } else
+                } else {
                     Toast.makeText(getContext(), "Такой номер уже имеется", Toast.LENGTH_SHORT).show();
+                    contactViewModel.setBooleanLiveDataNull();
+                }
             });
         }
     }
@@ -126,13 +126,17 @@ public class CreateContactFragment extends Fragment {
         String description = edtDescriptionContact.getText().toString();
         if (nameContact.length() <= 0 || numberContact.length() <= 0) {
             Toast.makeText(getContext(), "Введите данные", Toast.LENGTH_SHORT).show();
-        }LiveData<Boolean> liveData = contactViewModel.saveEditedContact(nameContact, numberContact, priority, description);
+        }
+        LiveData<Boolean> liveData = contactViewModel.saveEditedContact(nameContact, numberContact, priority, description);
         liveData.observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
-                Toast.makeText(getContext(), "Контакт добавлен", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Контакт изменен", Toast.LENGTH_SHORT).show();
+                contactViewModel.setBooleanLiveDataNull();
                 getParentFragmentManager().popBackStack();
-            } else
+            } else {
                 Toast.makeText(getContext(), "Такой номер уже имеется", Toast.LENGTH_SHORT).show();
+                contactViewModel.setBooleanLiveDataNull();
+            }
         });
     }
 

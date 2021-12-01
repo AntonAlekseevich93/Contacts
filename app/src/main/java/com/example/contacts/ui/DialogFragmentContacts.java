@@ -15,8 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.contacts.R;
+import com.example.contacts.support.IClickListenerDismiss;
 import com.example.contacts.viewmodel.ContactViewModel;
 import com.example.contacts.support.ActionEnum;
 
@@ -34,32 +36,31 @@ public class DialogFragmentContacts extends DialogFragment {
     private ActionEnum actionEnum;
     private int nameTitleDialog;
     private int idGroup;
+    public static final String TAG_DIALOG_NAME_SELECTED_GROUP = "tagNameSelectedGroup";
+    public static final String TAG_DIALOG_ACTION_ENUM = "tagActionEnum";
+    public static final String TAG_DIALOG_ID_GROUP = "tagIdGroup";
+    private IClickListenerDismiss iClickListenerDismiss;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
-    }
-
-    public DialogFragmentContacts(ContactViewModel contactViewModel, String nameSelectedGroup, ActionEnum actionEnum) {
-        this.contactViewModel = contactViewModel;
-        this.nameSelectedGroup = nameSelectedGroup;
-        this.actionEnum = actionEnum;
-
+        if (requireParentFragment() instanceof IClickListenerDismiss)
+            iClickListenerDismiss = (IClickListenerDismiss) requireParentFragment();
 
     }
 
-    public DialogFragmentContacts(ContactViewModel contactViewModel, int idGroup, ActionEnum actionEnum) {
-        this.contactViewModel = contactViewModel;
-        this.actionEnum = actionEnum;
-        this.idGroup = idGroup;
-    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        contactViewModel = new ViewModelProvider(requireActivity()).get(ContactViewModel.class);
 
-    public DialogFragmentContacts(ContactViewModel contactViewModel, ActionEnum actionEnum) {
-        this.contactViewModel = contactViewModel;
-        this.actionEnum = actionEnum;
-    }
+        nameSelectedGroup = getArguments().getString(TAG_DIALOG_NAME_SELECTED_GROUP);
+        actionEnum = (ActionEnum) getArguments().getSerializable(TAG_DIALOG_ACTION_ENUM);
+        idGroup = getArguments().getInt(TAG_DIALOG_ID_GROUP);
 
+    }
 
     @NonNull
     @Override
@@ -98,10 +99,13 @@ public class DialogFragmentContacts extends DialogFragment {
                             String sNewGroup = editText.getText().toString();
                             LiveData<Boolean> liveData = contactViewModel.createNewGroup(sNewGroup);
                             liveData.observe(requireActivity(), aBoolean -> {
-                                if (aBoolean)
+                                if (aBoolean) {
                                     Toast.makeText(context, "Группа добавлена", Toast.LENGTH_SHORT).show();
-                                else
+                                    contactViewModel.setBooleanLiveDataNull();
+                                } else {
                                     Toast.makeText(context, "Такая группа уже существует", Toast.LENGTH_SHORT).show();
+                                    contactViewModel.setBooleanLiveDataNull();
+                                }
                             });
                             break;
 
@@ -110,10 +114,13 @@ public class DialogFragmentContacts extends DialogFragment {
 
                             LiveData<Boolean> liveData2 = contactViewModel.createNewSubGroup(idGroup, nameSubGroup);
                             liveData2.observe(requireActivity(), aBoolean -> {
-                                if (aBoolean)
+                                if (aBoolean) {
                                     Toast.makeText(context, "Подгруппа добавлена", Toast.LENGTH_SHORT).show();
-                                else
+                                    contactViewModel.setBooleanLiveDataNull();
+                                } else {
                                     Toast.makeText(context, "Такая подгруппа уже существует", Toast.LENGTH_SHORT).show();
+                                    contactViewModel.setBooleanLiveDataNull();
+                                }
                             });
                             break;
 
@@ -123,20 +130,28 @@ public class DialogFragmentContacts extends DialogFragment {
                             liveData3.observe(requireActivity(), aBoolean -> {
                                 if (aBoolean) {
                                     Toast.makeText(context, "Название группы изменено", Toast.LENGTH_SHORT).show();
-                                } else
+                                    contactViewModel.setBooleanLiveDataNull();
+                                    iClickListenerDismiss.startDismiss();
+                                } else {
                                     Toast.makeText(context, "Такая группа уже существует", Toast.LENGTH_SHORT).show();
+                                    contactViewModel.setBooleanLiveDataNull();
+                                }
                             });
 
                             break;
 
                         case EDIT_SUB_GROUP:
                             String newNameSubGroup = editText.getText().toString();
-                            LiveData<Boolean> liveData4= contactViewModel.editNameGroupOrSubgroup(nameSelectedGroup, newNameSubGroup, 1);
+                            LiveData<Boolean> liveData4 = contactViewModel.editNameGroupOrSubgroup(nameSelectedGroup, newNameSubGroup, 1);
                             liveData4.observe(requireActivity(), aBoolean -> {
                                 if (aBoolean) {
                                     Toast.makeText(context, "Название подгруппы изменено", Toast.LENGTH_SHORT).show();
-                                } else
+                                    contactViewModel.setBooleanLiveDataNull();
+                                    iClickListenerDismiss.startDismiss();
+                                } else {
                                     Toast.makeText(context, "Такая подгруппа уже существует", Toast.LENGTH_SHORT).show();
+                                    contactViewModel.setBooleanLiveDataNull();
+                                }
                             });
                             break;
                     }
@@ -172,6 +187,7 @@ public class DialogFragmentContacts extends DialogFragment {
             }
         });
     }
+
 
 }
 

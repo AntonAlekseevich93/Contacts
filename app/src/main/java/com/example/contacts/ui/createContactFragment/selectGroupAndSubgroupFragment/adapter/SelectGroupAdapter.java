@@ -1,14 +1,17 @@
 package com.example.contacts.ui.createContactFragment.selectGroupAndSubgroupFragment.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +22,7 @@ import com.example.contacts.db.entity.SubGroupContact;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -58,8 +62,9 @@ public class SelectGroupAdapter extends RecyclerView.Adapter<SelectGroupAdapter.
 
     /**
      * Метод парсит список всех имеющихся групп. Где каждая группа содержит список подгрупп
+     *
      * @param list<SubGroupOfSelectGroup> список Групп. В каждой группе имеется список
-     *                                   подгрупп принадлежащих к этой группе.
+     *                                    подгрупп принадлежащих к этой группе.
      */
     private void createListGroup(List<SubGroupOfSelectGroup> list) {
         if (list != null) {
@@ -105,22 +110,34 @@ public class SelectGroupAdapter extends RecyclerView.Adapter<SelectGroupAdapter.
         boolean isExpandable = listOfGroup.get(position).isExpandable();
         holder.expandableLayout.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
         if (isExpandable) {
+            holder.imgArrowOpenGroup.setImageDrawable(context.getDrawable(R.drawable.upp_arrow));
             //Изменяем картинку открытой стрелочки и закрытой
-        } else ;
+
+        } else holder.imgArrowOpenGroup.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24));
         if (listSubGroup != null)
             listSubGroup = groupContactsList.get(position).getListSubGroup();
 
 
-        adapter = new NestedSubGroupAdapter(listSubGroup, new BiFunction<Integer, String, Void>() {
-            @Override
-            public Void apply(Integer integer, String s) {
-                try {
-                    functionReturnIdAndNameFromSelectedGroupOrSubgroup.apply(integer, s, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        adapter = new NestedSubGroupAdapter(listSubGroup, (integer, s, idGroupForThisSelectedSubgroup) -> {
+            /**
+             * Функция возвращает из адаптера и устанавливает во фрагмент выбранную подгруппу
+             */
+            try {
+                functionReturnIdAndNameFromSelectedGroupOrSubgroup.apply(integer, s, 1);
+                for (int i = 0; i < listOfGroup.size(); i++) {
+                    if (listOfGroup.get(i).getId() == idGroupForThisSelectedSubgroup) {
+                        listOfGroup.get(i).setSelect(true);
+                        notifyItemChanged(i);
+                        functionReturnIdAndNameFromSelectedGroupOrSubgroup
+                                .apply(idGroupForThisSelectedSubgroup,
+                                        listOfGroup.get(i).getNameGroup(), 0);
+                        break;
+                    }
                 }
-                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            return null;
         }, mapOfSelectedSubGroup);
         holder.nestedRecyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         holder.nestedRecyclerView.setAdapter(adapter);
@@ -156,6 +173,7 @@ public class SelectGroupAdapter extends RecyclerView.Adapter<SelectGroupAdapter.
         private LinearLayout clickSelectGroup;
         private RelativeLayout setBackgroundColorSelectedGroup;
         private TextView tvInfoSelectGroup;
+        private ImageView imgArrowOpenGroup;
 
 
         public SelectContactViewHolder(@NonNull View itemView, SelectGroupAdapter adapter) {
@@ -168,6 +186,7 @@ public class SelectGroupAdapter extends RecyclerView.Adapter<SelectGroupAdapter.
             clickSelectGroup = itemView.findViewById(R.id.linear_layout_of_parent_adapter);
             setBackgroundColorSelectedGroup = itemView.findViewById(R.id.relativeLayoutOfParentAdapter);
             tvInfoSelectGroup = itemView.findViewById(R.id.tvParentAdapterGroupIsSelectInfo);
+            imgArrowOpenGroup = itemView.findViewById(R.id.arro_imageview);
 
             /**
              * Метод обрабатывает нажатие на кнопку "Создать подгруппу"

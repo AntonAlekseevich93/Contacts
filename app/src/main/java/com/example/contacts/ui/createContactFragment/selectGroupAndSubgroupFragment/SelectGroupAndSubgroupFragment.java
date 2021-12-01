@@ -116,8 +116,7 @@ public class SelectGroupAndSubgroupFragment extends Fragment {
             /**
              * функция создает DialogFragment для создания новой подгруппы
              */
-            new DialogFragmentContacts(contactViewModel,  integer, ActionEnum.CREATE_NEW_SUB_GROUP)
-                    .show(getChildFragmentManager(), DialogFragmentContacts.TAG);
+            startDialogFragmentForCreateNewSubGroup(integer, ActionEnum.CREATE_NEW_SUB_GROUP);
             return null;
         });
 
@@ -136,7 +135,7 @@ public class SelectGroupAndSubgroupFragment extends Fragment {
          * Метод создает DialogFragment для создания новой группы
          */
         layoutCreateNewGroup.setOnClickListener(view1 -> {
-            new DialogFragmentContacts(contactViewModel, ActionEnum.CREATE_NEW_GROUP).show(getChildFragmentManager(), DialogFragmentContacts.TAG);
+       startDialogFragmentForCreateNewGroup(ActionEnum.CREATE_NEW_GROUP);
         });
 
         /**
@@ -162,5 +161,21 @@ public class SelectGroupAndSubgroupFragment extends Fragment {
 
     }
 
+    private void startDialogFragmentForCreateNewSubGroup(int i, ActionEnum actionEnum) {
+        DialogFragmentContacts dialogFragmentContacts = new DialogFragmentContacts();
+        Bundle bundle = new Bundle();
+        bundle.putInt(DialogFragmentContacts.TAG_DIALOG_ID_GROUP, i);
+        bundle.putSerializable(DialogFragmentContacts.TAG_DIALOG_ACTION_ENUM, actionEnum);
+        dialogFragmentContacts.setArguments(bundle);
+        dialogFragmentContacts.show(getChildFragmentManager(), DialogFragmentContacts.TAG);
+    }
+
+    private void startDialogFragmentForCreateNewGroup(ActionEnum actionEnum) {
+        DialogFragmentContacts dialogFragmentContacts = new DialogFragmentContacts();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DialogFragmentContacts.TAG_DIALOG_ACTION_ENUM, actionEnum);
+        dialogFragmentContacts.setArguments(bundle);
+        dialogFragmentContacts.show(getChildFragmentManager(), DialogFragmentContacts.TAG);
+    }
 
 }

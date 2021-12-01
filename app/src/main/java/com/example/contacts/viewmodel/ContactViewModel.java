@@ -43,6 +43,10 @@ public class ContactViewModel extends androidx.lifecycle.ViewModel {
     }
 
 
+    public void setBooleanLiveDataNull(){
+        booleanMutableLiveData = null;
+    }
+
     public MutableLiveData<Boolean> createNewGroup(String nameGroup) {
         createBooleanLiveData();
 
