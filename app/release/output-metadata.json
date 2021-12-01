@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.contacts",
+  "applicationId": "com.example.hrcontact",
   "variantName": "release",
   "elements": [
     {

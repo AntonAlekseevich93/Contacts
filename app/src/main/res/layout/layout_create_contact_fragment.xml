@@ -7,27 +7,22 @@
 
     >
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarSubGroup"
         style="@style/ToolBarMyStyle"
         android:layout_width="match_parent"
-
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_menu_24"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="22dp" />
 
         <TextView
-            android:text="Новый контакт"
+            android:id="@+id/toolbarName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="15dp"
+            android:text="@string/info_new_contact"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -35,13 +30,12 @@
             android:id="@+id/imageViewSaveContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_marginEnd="20dp"
             app:srcCompat="@drawable/ic_baseline_save_as_24"
-            app:tint="@color/save_color" />
+            app:tint="@color/colorApp" />
 
     </androidx.appcompat.widget.Toolbar>
-
 
     <LinearLayout
         android:id="@+id/linearLayoutGroupContactsAddGroup"
@@ -49,7 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_weight="@integer/material_motion_duration_long_1"
-
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarSubGroup">
@@ -58,15 +51,15 @@
             android:layout_width="20dp"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/add_24"
-            app:tint="@color/nameSubGroup" />
+            app:tint="@color/colorApp" />
 
         <TextView
             android:id="@+id/tvSelectGroup"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingStart="3dp"
-            android:text="Выбрать группу или подгруппу"
-            android:textColor="@color/nameGroup"
+            android:text="@string/info_select_group_or_subgroup"
+            android:textColor="@color/colorApp"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -74,23 +67,15 @@
     </LinearLayout>
 
 
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSelectGroupForCreateContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayoutGroupContactsAddGroup"
         android:layout_marginHorizontal="12dp"
         android:scrollbars="horizontal"
-
-        />
-
-
-
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutGroupContactsAddGroup" />
 
 
     <EditText
@@ -100,7 +85,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:hint="Введите имя"
+        android:hint="@string/info_enter_name"
         android:inputType="textPersonName"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,11 +98,10 @@
         android:id="@+id/editTextTextPersonName2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:hint="Введите телефон"
+        android:hint="@string/info_enter_number"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -144,9 +128,8 @@
         android:layout_marginEnd="10dp"
         android:backgroundTint="#00FFFFFF"
         android:ems="10"
-
         android:gravity="start|top"
-        android:hint="Добавьте описание"
+        android:hint="@string/info_add_description"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
