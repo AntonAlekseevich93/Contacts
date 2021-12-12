@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    >
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarGroup"
@@ -21,16 +19,14 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_baseline_close_24"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="22dp"
-
-            />
+            tools:layout_editor_absoluteY="22dp" />
 
         <TextView
             android:id="@+id/tvNameToolbarSelectGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="15dp"
-            android:text="Выбрать группу"
+            android:text="@string/info_select_group"
             android:textColor="@color/nameToolbarAnother"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -39,10 +35,10 @@
             android:id="@+id/imageViewSaveSelectedGroupForNewContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_marginEnd="20dp"
             app:srcCompat="@drawable/ic_baseline_save_as_24"
-            app:tint="@color/save_color" />
+            app:tint="@color/colorApp" />
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
@@ -57,18 +53,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-
-           >
+            android:orientation="vertical">
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewSelectGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-
-                 />
+                android:background="@color/toolbar" />
 
 
 
@@ -77,9 +69,7 @@
                     android:id="@+id/linearLayoutCreateGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-
-                    >
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -92,7 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
-                        android:text="Новая группа"
+                        android:text="@string/text_button_new_group"
                         android:textColor="@color/colorApp"
                         android:textSize="20sp" />
 
