@@ -1,14 +1,18 @@
 package com.example.hrcontact.ui.MainFragment.adapter;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,30 +76,39 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         holder.tvNameGroup.setText(listOfGroup.get(position).getNameGroup());
-        boolean isExpandable = listOfGroup.get(position).isExpandable();
-        holder.expandableLayout.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
 
-        if (!isExpandable) {
-            holder.clickExpandableGroup.setText(context.getResources().getString(R.string.show_subgroup));
-        } else
-            holder.clickExpandableGroup.setText(context.getResources().getString(R.string.hide_subgroup));
-        if (listSubGroup != null)
-            listSubGroup = listSubGroupOfSelectedGroup.get(position).getListSubGroup();
+        //Если не группа для контактов без групп
+        if (listOfGroup.get(position).getId() != 1) {
+            boolean isExpandable = listOfGroup.get(position).isExpandable();
+            holder.expandableLayout.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
+
+            if (!isExpandable) {
+                holder.clickExpandableGroup.setText(context.getResources().getString(R.string.show_subgroup));
+            } else
+                holder.clickExpandableGroup.setText(context.getResources().getString(R.string.hide_subgroup));
+            if (listSubGroup != null)
+                listSubGroup = listSubGroupOfSelectedGroup.get(position).getListSubGroup();
 
 
-        MainNestedAdapterSubGroup adapter =
-                new MainNestedAdapterSubGroup(listSubGroup, this);
-        holder.nestedRecyclerView
-                .setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        holder.nestedRecyclerView.setAdapter(adapter);
+            MainNestedAdapterSubGroup adapter =
+                    new MainNestedAdapterSubGroup(listSubGroup, this);
+            holder.nestedRecyclerView
+                    .setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+            holder.nestedRecyclerView.setAdapter(adapter);
 
-        /**
-         * Функция обрабатывает щелчек на кнопку показать подгруппы/скрыть подгруппы
-         */
-        holder.clickExpandableGroup.setOnClickListener(view -> {
-            listOfGroup.get(position).setExpandable(!listOfGroup.get(position).isExpandable());
-            notifyItemChanged(holder.getAdapterPosition());
-        });
+            /**
+             * Функция обрабатывает щелчек на кнопку показать подгруппы/скрыть подгруппы
+             */
+            holder.clickExpandableGroup.setOnClickListener(view -> {
+                listOfGroup.get(position).setExpandable(!listOfGroup.get(position).isExpandable());
+                notifyItemChanged(holder.getAdapterPosition());
+            });
+        } else {
+            holder.imageViewClickEditNameGroup.setVisibility(View.GONE);
+            holder.clickExpandableGroup.setVisibility(View.GONE);
+//            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorApp));
+            holder.cardView.setMinimumHeight(30);
+        }
     }
 
 
@@ -134,6 +147,8 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
         private final RecyclerView nestedRecyclerView;
         private final TextView clickExpandableGroup;
         public final ImageView imageViewClickEditNameGroup;
+        private final LinearLayout mainParentLinear;
+        private final CardView cardView;
 
         public ContactViewHolder(@NonNull View itemView, MainAdapterGroup adapter) {
             super(itemView);
@@ -143,6 +158,9 @@ public class MainAdapterGroup extends RecyclerView.Adapter<MainAdapterGroup.Cont
             nestedRecyclerView = itemView.findViewById(R.id.main_child_rv);
             clickExpandableGroup = itemView.findViewById(R.id.tv_show_subgroup);
             imageViewClickEditNameGroup = itemView.findViewById(R.id.main_edit_group_imageview);
+            mainParentLinear = itemView.findViewById(R.id.main_parent_linear_layout_of_parent_adapter);
+            cardView = itemView.findViewById(R.id.mainCardView);
+
 
             /**
              * ClickListener получает id группы и возвращает в фрагмент для получения списка

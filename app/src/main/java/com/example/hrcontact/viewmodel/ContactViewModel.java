@@ -248,6 +248,7 @@ public class ContactViewModel extends androidx.lifecycle.ViewModel {
 
     /**
      * Получить действие с которым открыт фрагмент контакта
+     *
      * @return ActionEnum.CREATE_CONTACT, ActionEnum.EDIT_CONTACT
      */
     public ActionEnum getActionForContacts() {
@@ -256,6 +257,7 @@ public class ContactViewModel extends androidx.lifecycle.ViewModel {
 
     /**
      * Установить действие с которым открыт фрагмент контакта
+     *
      * @param actionForContacts ActionEnum.CREATE_CONTACT, ActionEnum.EDIT_CONTACT
      */
     public void setActionForContacts(ActionEnum actionForContacts) {
@@ -264,6 +266,7 @@ public class ContactViewModel extends androidx.lifecycle.ViewModel {
 
     /**
      * Функция возвращает контакт для редактирования
+     *
      * @param idContact id выбранного контакта
      * @return Contact
      */
@@ -315,6 +318,7 @@ public class ContactViewModel extends androidx.lifecycle.ViewModel {
 
     /**
      * Функция удаляет контакт,группу, подгруппу из БД
+     *
      * @param actionEnum удаление контакта, группы или подгруппы
      * @param idDelete   id удаляемого объекта
      */
@@ -325,6 +329,7 @@ public class ContactViewModel extends androidx.lifecycle.ViewModel {
 
     /**
      * Метод изменяет в Map количество выбранных подгрупп для конкретной группы
+     *
      * @param idGroup id группы для которой изменяется кол-во
      * @param action  если true - кол-во увеличивается на 1, если false - уменьшается
      */
@@ -364,9 +369,16 @@ public class ContactViewModel extends androidx.lifecycle.ViewModel {
         ldNumberOfSelectedSubgroupForAllGroup = null;
     }
 
+    public boolean ifGroupAdded() {
+        if (mapOfGroup != null && mapOfGroup.size() > 0)
+            return true;
+        else return false;
+    }
+
     @Override
     protected void onCleared() {
         disposable.dispose();
         super.onCleared();
     }
+
 }

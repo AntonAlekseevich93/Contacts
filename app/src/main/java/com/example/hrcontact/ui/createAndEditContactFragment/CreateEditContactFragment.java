@@ -118,7 +118,13 @@ public class CreateEditContactFragment extends Fragment {
             Toast.makeText(getContext(),
                     getResources().getString(R.string.toast_info_data_not_filled),
                     Toast.LENGTH_SHORT).show();
-        } else {
+        }
+//        else if(!contactViewModel.ifGroupAdded()){
+//            Toast.makeText(getContext(),
+//                    getResources().getString(R.string.toast_info_group_not_selected),
+//                    Toast.LENGTH_SHORT).show();
+//        }
+        else {
             LiveData<Boolean> liveData =
                     contactViewModel.createNewContact(nameContact, numberContact, priority, description);
             liveData.observe(getViewLifecycleOwner(), aBoolean -> {

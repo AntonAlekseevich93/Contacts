@@ -11,6 +11,8 @@ import com.example.hrcontact.db.entity.SubGroupContact;
 import com.example.hrcontact.model.SubGroupOfSelectGroup;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import io.reactivex.Flowable;
 
@@ -24,11 +26,10 @@ public interface ContactsDao {
     void updateContact(int idContact, String number);
 
     //Добавляет новый контакт в БД с выбранными группами и подгруппами
-    @Query("INSERT INTO contactsWithGroups (idContacts, name, number, description, priority, idGroup, idSubGroup)" +
+    @Query("INSERT INTO contactsWithGroups (idContacts, name, number, description, priority, amountSelectedGroup, idGroup, idSubGroup)" +
             " VALUES (:idContact, :nameContact, :numberContact, :descriptionContact, :priorityContact," +
-            " :idGroup, :idSubGroup)")
-    void insertContactWithGroup(int idContact, String nameContact, String numberContact, String descriptionContact, int priorityContact,
-                                int idGroup, int idSubGroup);
+            ":amountSelectedGroup, :idGroup, :idSubGroup)")
+    void insertContactWithGroup(int idContact, String nameContact, String numberContact, String descriptionContact, int priorityContact, int amountSelectedGroup, int idGroup, int idSubGroup);
 
     //Добавляет новую группу
     @Insert
@@ -117,4 +118,9 @@ public interface ContactsDao {
     @Query("SELECT * FROM subgroup WHERE id = :idSubGroup")
     SubGroupContact getSubGroupForContact(int idSubGroup);
 
+    @Query("SELECT * FROM contactsWithGroups WHERE idGroup =:idGroup ")
+    ContactWithGroups getContactWithThisGroup(int idGroup);
+
+    @Query("UPDATE contactsWithGroups SET amountSelectedGroup = :amount WHERE idContacts =:idContact")
+    void updateAmountSelectedGroupForContact(int amount, int idContact);
 }

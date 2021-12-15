@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
@@ -23,13 +24,13 @@ public class DataRepository {
     private List<Map<Integer, String>> maps = new ArrayList<>();
 
 
-
     public DataRepository(ContactsDatabase contactsDatabase) {
         this.contactsDatabase = contactsDatabase;
     }
 
     /**
      * Метод создает новый контакт и добавляет в БД
+     *
      * @param mapGroup        - список выбранных групп (id, name)
      * @param mapOfSubgroup   - список выбранных подгруп (id, name)
      * @param nameContact     - название контакта
@@ -45,17 +46,26 @@ public class DataRepository {
             int size = contactsDatabase.contactsDao().checkIfContactExist(numberContact).size();
             if (size > 0) emitter.onSuccess(false);
             else {
+
                 contactsDatabase.contactsDao().insertNewContact(new Contact(numberContact));
                 int idNewContact = contactsDatabase.contactsDao().getIdContact(numberContact);
-                for (Integer key : mapGroup.keySet()) {
+                if (mapGroup != null && mapGroup.size() > 0) {
+                    int amountSelectedGroup = mapGroup.size();
+                    for (Integer key : mapGroup.keySet()) {
+                        contactsDatabase.contactsDao().insertContactWithGroup(idNewContact,
+                                nameContact, numberContact, description, priorityContact,
+                                amountSelectedGroup, key, -1);
+                    }
+                    for (Integer key : mapOfSubgroup.keySet()) {
+                        contactsDatabase.contactsDao().insertContactWithGroup(idNewContact,
+                                nameContact, numberContact, description, priorityContact,
+                                amountSelectedGroup, -1, key);
+                    }
+                } else {
+                    //Случай без группы (устанавливаем группу "Без групп")
                     contactsDatabase.contactsDao().insertContactWithGroup(idNewContact,
-                            nameContact, numberContact, description, priorityContact,
-                            key, -1);
-                }
-                for (Integer key : mapOfSubgroup.keySet()) {
-                    contactsDatabase.contactsDao().insertContactWithGroup(idNewContact,
-                            nameContact, numberContact, description, priorityContact,
-                            -1, key);
+                            nameContact, numberContact, description, priorityContact, 0,
+                            1, -1);
                 }
                 emitter.onSuccess(true);
             }
@@ -70,20 +80,29 @@ public class DataRepository {
             int size = contactsDatabase.contactsDao()
                     .checkIfEditableContactExist(numberContact, idEditableContact).size();
             if (size > 0) emitter.onSuccess(false);
-
             else {
                 contactsDatabase.contactsDao().updateContact(idEditableContact, numberContact);
                 contactsDatabase.contactsDao().deleteContactWithGroup(idEditableContact);
                 int idNewContact = contactsDatabase.contactsDao().getIdContact(numberContact);
-                for (Integer key : mapOfGroup.keySet()) {
+
+                if (mapOfGroup != null && mapOfGroup.size() > 0) {
+                    int amountSelectedGroup = mapOfGroup.size();
+                    for (Integer key : mapOfGroup.keySet()) {
+                        if (key == 1) continue;//Если выбрана без группы
+                        contactsDatabase.contactsDao().insertContactWithGroup(idNewContact,
+                                nameContact, numberContact, description, priorityContact,
+                                amountSelectedGroup, key, -1);
+                    }
+                    for (Integer key : mapOfSubGroup.keySet()) {
+                        contactsDatabase.contactsDao().insertContactWithGroup(idNewContact,
+                                nameContact, numberContact, description, priorityContact,
+                                amountSelectedGroup, -1, key);
+                    }
+                } else {
+                    // Случай если без группы
                     contactsDatabase.contactsDao().insertContactWithGroup(idNewContact,
-                            nameContact, numberContact, description, priorityContact,
-                            key, -1);
-                }
-                for (Integer key : mapOfSubGroup.keySet()) {
-                    contactsDatabase.contactsDao().insertContactWithGroup(idNewContact,
-                            nameContact, numberContact, description, priorityContact,
-                            -1, key);
+                            nameContact, numberContact, description, priorityContact, 0,
+                            1, -1);
                 }
                 emitter.onSuccess(true);
             }
@@ -92,6 +111,7 @@ public class DataRepository {
 
     /**
      * Метод получает список групп и принадлежащих этой группе подгрупп
+     *
      * @return список групп и подгрупп
      */
     public Flowable<List<SubGroupOfSelectGroup>> getAllGroupWithNestedSubGroup() {
@@ -101,6 +121,7 @@ public class DataRepository {
 
     /**
      * Метод создает новую группу
+     *
      * @param nameGroup - имя группы
      * @return возвращает true если группа добавлена, false если группа с таким названием уже существует
      */
@@ -118,6 +139,7 @@ public class DataRepository {
 
     /**
      * Метод создает новую подгруппу
+     *
      * @param idGroup      - id группы
      * @param nameSubGroup - название новой подгруппы
      * @return true если группа создалась, false если такое название подгруппы уже есть
@@ -136,6 +158,7 @@ public class DataRepository {
 
     /**
      * Метод возвращает Список контактов принадлежащих группе или подгруппе
+     *
      * @param id   - id группы или подгруппы
      * @param type - тип, где 0 - группа, 1 подгруппа
      * @return возвращает List контактов этой группы или подгруппы
@@ -153,6 +176,7 @@ public class DataRepository {
 
     /**
      * Метод изменяет название подгруппы
+     *
      * @param name    имя группы или подгруппы
      * @param newName новое имя
      * @param type    тип, где 0 - группа, 1 - подгруппа
@@ -232,6 +256,7 @@ public class DataRepository {
 
     /**
      * Метод удаляет контакт, группу или подгруппу
+     *
      * @param actionEnum удаление контакта или группы или подгруппы
      * @param idDelete   id контакта, группы или подгруппы
      */
@@ -244,9 +269,29 @@ public class DataRepository {
                     break;
 
                 case DELETE_GROUP:
+                    ContactWithGroups contact = contactsDatabase.contactsDao().getContactWithThisGroup(idDelete);
+                    int idContact = contactsDatabase.contactsDao().getIdContact(contact.getNumber());
+                    int amountSelectedGroup = contact.getAmountSelectedGroup();
                     contactsDatabase.contactsDao().deleteGroup(idDelete);
                     contactsDatabase.contactsDao().deleteGroupFromContact(idDelete, -1);
                     contactsDatabase.contactsDao().deleteSubgroupWhereGroupIsExist(idDelete);
+
+                    //Если эта группа последняя у контакта, тогда нам нужно установить для контакта
+                    //группу - Без группы
+                    if (amountSelectedGroup == 1) {
+                        String nameContact = contact.getName();
+                        String numberContact = contact.getNumber();
+                        String description = contact.getDescription();
+                        int priorityContact = contact.getPriority();
+                        contactsDatabase.contactsDao().deleteContactWithGroup(idContact);
+                        contactsDatabase.contactsDao().insertContactWithGroup(idContact,
+                                nameContact, numberContact, description, priorityContact, 0,
+                                1, -1);
+                    } else {
+                        amountSelectedGroup--;
+                        contactsDatabase.contactsDao()
+                                .updateAmountSelectedGroupForContact(amountSelectedGroup, idContact);
+                    }
                     break;
 
                 case DELETE_SUBGROUP:

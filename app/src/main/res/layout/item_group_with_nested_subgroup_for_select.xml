@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:minHeight="70dp"
+    android:id="@+id/cardViewSelectedGroupAdapter"
     app:cardCornerRadius="8dp"
     app:cardElevation="6dp">
 
@@ -31,11 +32,11 @@
                 <TextView
                     android:id="@+id/itemTv"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
                     android:layout_marginStart="10dp"
-                    android:singleLine="true"
                     android:layout_weight="3"
-                    android:gravity="center"
+                    android:singleLine="true"
                     android:textColor="@color/colorApp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -79,12 +80,12 @@
                     android:id="@+id/tvParentAdapterGroupIsSelectInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:layout_marginStart="60dp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="35dp"
                     android:layout_marginEnd="5dp"
                     android:layout_toStartOf="@+id/linearInfoAmountSelectedSubgroup"
                     android:layout_toEndOf="@+id/tvCreateNewSubGroup"
-
+                    android:singleLine="true"
                     android:text="@string/info_is_selected"
                     android:textColor="@color/select_color" />
 

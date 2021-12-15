@@ -32,6 +32,7 @@
     <string name="share_contact_number">Номер:</string>
     <string name="share_contact_description">Доп. информация:</string>
     <string name="toast_info_data_not_filled">Введите данные</string>
+    <string name="toast_info_group_not_selected">Выберите хотя бы одну группу</string>
     <string name="toast_info_contact_added">Контакт добавлен</string>
     <string name="toast_info_contact_changed">Контакт изменен</string>
     <string name="toast_info_number_already_exist">Такой номер уже существует</string>

@@ -165,8 +165,9 @@ public class SelectGroupAndSubgroupFragment extends Fragment implements ISelectA
 
     /**
      * Метод сохраняет кол-во выбранных подгрупп для конкретной группы
+     *
      * @param idGroup - id группы для которой сохраняется кол-во выбранных подгрупп
-     * @param action если true - кол-во увелчивается, false - уменьшается.
+     * @param action  если true - кол-во увелчивается, false - уменьшается.
      */
     @Override
     public void setCountSelectedGroup(Integer idGroup, Boolean action) {
@@ -194,6 +195,7 @@ public class SelectGroupAndSubgroupFragment extends Fragment implements ISelectA
     }
 
     private void getAmountSelectedSubgroup() {
+
         LiveData<Map<Integer, Integer>> ldAmount = contactViewModel.getAmountSelectedSubgroup();
         ldAmount.observe(getViewLifecycleOwner(), integerIntegerMap -> {
             if (integerIntegerMap != null) {
@@ -202,5 +204,9 @@ public class SelectGroupAndSubgroupFragment extends Fragment implements ISelectA
         });
     }
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        contactViewModel.saveAmountSelectedSubGroup();
+        super.onSaveInstanceState(outState);
+    }
 }
