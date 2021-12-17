@@ -22,8 +22,6 @@ import com.example.hrcontact.model.SubGroupOfSelectGroup;
 import com.example.hrcontact.ui.createAndEditContactFragment.selectGroupAndSubgroupFragment.IListenerNestedSelectAdapter;
 import com.example.hrcontact.ui.createAndEditContactFragment.selectGroupAndSubgroupFragment.ISelectAdapterListeners;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

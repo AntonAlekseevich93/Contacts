@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
@@ -82,10 +81,11 @@ public class DataRepository {
             if (size > 0) emitter.onSuccess(false);
             else {
                 contactsDatabase.contactsDao().updateContact(idEditableContact, numberContact);
-                contactsDatabase.contactsDao().deleteContactWithGroup(idEditableContact);
                 int idNewContact = contactsDatabase.contactsDao().getIdContact(numberContact);
+                contactsDatabase.contactsDao().deleteContactWithGroup(idNewContact);
 
-                if (mapOfGroup != null && mapOfGroup.size() > 0) {
+
+                if (mapOfGroup != null && mapOfGroup.size() > 0 && !mapOfGroup.containsKey(1)) {
                     int amountSelectedGroup = mapOfGroup.size();
                     for (Integer key : mapOfGroup.keySet()) {
                         if (key == 1) continue;//Если выбрана без группы
@@ -269,34 +269,40 @@ public class DataRepository {
                     break;
 
                 case DELETE_GROUP:
-                    ContactWithGroups contact = contactsDatabase.contactsDao().getContactWithThisGroup(idDelete);
-                    int idContact = contactsDatabase.contactsDao().getIdContact(contact.getNumber());
-                    int amountSelectedGroup = contact.getAmountSelectedGroup();
+                    List<ContactWithGroups> contacts = contactsDatabase.contactsDao().getContactWithThisGroup(idDelete);
+
+
                     contactsDatabase.contactsDao().deleteGroup(idDelete);
                     contactsDatabase.contactsDao().deleteGroupFromContact(idDelete, -1);
                     contactsDatabase.contactsDao().deleteSubgroupWhereGroupIsExist(idDelete);
 
                     //Если эта группа последняя у контакта, тогда нам нужно установить для контакта
                     //группу - Без группы
-                    if (amountSelectedGroup == 1) {
-                        String nameContact = contact.getName();
-                        String numberContact = contact.getNumber();
-                        String description = contact.getDescription();
-                        int priorityContact = contact.getPriority();
-                        contactsDatabase.contactsDao().deleteContactWithGroup(idContact);
-                        contactsDatabase.contactsDao().insertContactWithGroup(idContact,
-                                nameContact, numberContact, description, priorityContact, 0,
-                                1, -1);
-                    } else {
-                        amountSelectedGroup--;
-                        contactsDatabase.contactsDao()
-                                .updateAmountSelectedGroupForContact(amountSelectedGroup, idContact);
+                    for (ContactWithGroups contact : contacts) {
+                        int amountSelectedGroup = contact.getAmountSelectedGroup();
+                        int idContact = contact.getIdContacts();
+                        if (amountSelectedGroup == 1) {
+                            String nameContact = contact.getName();
+                            String numberContact = contact.getNumber();
+                            String description = contact.getDescription();
+                            int priorityContact = contact.getPriority();
+                            contactsDatabase.contactsDao().deleteContactWithGroup(idContact);
+                            contactsDatabase.contactsDao().insertContactWithGroup(idContact,
+                                    nameContact, numberContact, description, priorityContact, 0,
+                                    1, -1);
+                        } else {
+                            amountSelectedGroup--;
+                            contactsDatabase.contactsDao()
+                                    .updateAmountSelectedGroupForContact(amountSelectedGroup, idContact);
+                        }
                     }
+
                     break;
 
                 case DELETE_SUBGROUP:
                     contactsDatabase.contactsDao().deleteSubGroup(idDelete);
                     contactsDatabase.contactsDao().deleteSubGroupFromContact(idDelete, -1);
+                    contactsDatabase.contactsDao().deleteCopyContacts();
                     break;
             }
         });

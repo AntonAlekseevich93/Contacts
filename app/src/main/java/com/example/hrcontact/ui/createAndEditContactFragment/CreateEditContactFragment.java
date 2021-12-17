@@ -91,9 +91,7 @@ public class CreateEditContactFragment extends Fragment {
             if (actionForThisFragment == ActionEnum.CREATE_CONTACT) addNewContact();
             else if (actionForThisFragment == ActionEnum.EDIT_CONTACT) editContact();
         });
-
         setSelectGroupAndSubgroupToAdapter();
-
     }
 
 
@@ -119,11 +117,6 @@ public class CreateEditContactFragment extends Fragment {
                     getResources().getString(R.string.toast_info_data_not_filled),
                     Toast.LENGTH_SHORT).show();
         }
-//        else if(!contactViewModel.ifGroupAdded()){
-//            Toast.makeText(getContext(),
-//                    getResources().getString(R.string.toast_info_group_not_selected),
-//                    Toast.LENGTH_SHORT).show();
-//        }
         else {
             LiveData<Boolean> liveData =
                     contactViewModel.createNewContact(nameContact, numberContact, priority, description);
@@ -162,6 +155,7 @@ public class CreateEditContactFragment extends Fragment {
                 Toast.makeText(getContext(),
                         getResources().getString(R.string.toast_info_contact_changed),
                         Toast.LENGTH_SHORT).show();
+                contactViewModel.clearDataPopBackStack();
                 contactViewModel.setBooleanLiveDataNull();
                 getParentFragmentManager().popBackStack();
             } else {

@@ -63,9 +63,13 @@ public interface ContactsDao {
     @Query("DELETE FROM subgroup WHERE id =:idSubGroup")
     void deleteSubGroup(int idSubGroup);
 
-    //Удаляет группу из таблицы контактов
+    //Удаляет подгруппу из таблицы контактов
     @Query("UPDATE contactsWithGroups SET idSubGroup = :defaultValue WHERE idSubGroup = :id")
     void deleteSubGroupFromContact(int id, int defaultValue);
+
+    //Удаляет копии контактов без групп и подгрупп
+    @Query("DELETE FROM contactsWithGroups WHERE idGroup = -1 AND idSubGroup = -1")
+    void deleteCopyContacts();
 
     //Получает все контакты конкретной группы
     @Query("SELECT * FROM contactsWithGroups WHERE idGroup = :idGroup")
@@ -119,7 +123,7 @@ public interface ContactsDao {
     SubGroupContact getSubGroupForContact(int idSubGroup);
 
     @Query("SELECT * FROM contactsWithGroups WHERE idGroup =:idGroup ")
-    ContactWithGroups getContactWithThisGroup(int idGroup);
+    List<ContactWithGroups> getContactWithThisGroup(int idGroup);
 
     @Query("UPDATE contactsWithGroups SET amountSelectedGroup = :amount WHERE idContacts =:idContact")
     void updateAmountSelectedGroupForContact(int amount, int idContact);
