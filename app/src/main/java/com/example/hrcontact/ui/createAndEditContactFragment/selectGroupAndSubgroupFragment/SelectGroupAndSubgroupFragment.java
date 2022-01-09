@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 public class SelectGroupAndSubgroupFragment extends Fragment implements ISelectAdapterListeners {
     private SelectGroupAdapter adapter;
     private final List<SubGroupOfSelectGroup> listGroup = new ArrayList<>();

@@ -8,12 +8,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.hrcontact.DataRepository;
 import com.example.contacts.R;
+import com.example.hrcontact.DataRepository;
 import com.example.hrcontact.db.ContactsDatabase;
 import com.example.hrcontact.ui.MainFragment.MainFragment;
 import com.example.hrcontact.viewmodel.ContactViewModel;
 import com.example.hrcontact.viewmodel.factory.Factory;
+
 
 public class MainActivity extends AppCompatActivity {
 
