@@ -31,7 +31,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ContactsFragment extends Fragment implements IClickListenerAdapterContact {
     private ContactViewModel contactViewModel;
     private int idGroup = -1;

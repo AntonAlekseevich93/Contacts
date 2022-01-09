@@ -18,15 +18,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.contacts.R;
-import com.example.hrcontact.support.ActionEnum;
 import com.example.hrcontact.support.IClickListenerDismiss;
 import com.example.hrcontact.viewmodel.ContactViewModel;
+import com.example.hrcontact.support.ActionEnum;
 
 /**
  * Класс выводит диалог фрагмент, который принимает в себя события: Создать новую группу,
  * создать новую подгруппу, изменить название группы, изменить название подгруппы
  **/
-
 public class DialogFragmentContacts extends DialogFragment {
     public static String TAG = "CreateNewDialogFragment";
     private ContactViewModel contactViewModel;

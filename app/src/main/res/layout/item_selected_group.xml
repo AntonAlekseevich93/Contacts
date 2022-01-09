@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardViewNestedAdapter"
+    android:layout_marginHorizontal="10dp"
+    android:layout_margin="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<RelativeLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="java"
+        android:id="@+id/itemSelectedGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="0dp"
+        android:layout_toStartOf="@+id/tvNestedAdapter"
+        android:singleLine="true"
+        android:textColor="@color/colorApp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvNestedAdapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/info_is_selected"
+        android:textStyle="italic"
+        android:textColor="@color/select_color" />
+
+</RelativeLayout>
+
+</androidx.cardview.widget.CardView>
